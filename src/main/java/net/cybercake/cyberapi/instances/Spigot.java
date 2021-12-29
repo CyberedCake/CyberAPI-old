@@ -25,7 +25,8 @@ import java.util.Properties;
 public class Spigot extends JavaPlugin {
 
     public static JavaPlugin get() {
-        return CyberAPI.getSpigotPlugin();
+        return CyberAPI.getAPI().getSpigotPlugin();
+
     }
 
     //
@@ -141,6 +142,9 @@ public class Spigot extends JavaPlugin {
         return Math.sqrt(NumberConversions.square(loc1.getX() - loc2.getX()) + NumberConversions.square(loc1.getZ() - loc2.getZ()));
     }
 
+    //
+    // CONSOLE LOGGING
+    //
     public static void registerCommand(String name, CommandExecutor commandExecutor) { Spigot.get().getCommand(name).setExecutor(commandExecutor); }
     public static void registerTabCompleter(String name, TabCompleter tabCompleter) { Spigot.get().getCommand(name).setTabCompleter(tabCompleter); }
     public static void registerListener(Listener listener) { Spigot.get().getServer().getPluginManager().registerEvents(listener, Spigot.get()); }

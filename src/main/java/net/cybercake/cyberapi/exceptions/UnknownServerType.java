@@ -5,7 +5,7 @@ import net.cybercake.cyberapi.CyberAPI;
 public class UnknownServerType extends RuntimeException{
 
     public UnknownServerType(String errorMsg) {
-        super(CyberAPI.getPrefix(true) + " " + errorMsg);
+        super(CyberAPI.getAPI().getPrefix(true) + " " + errorMsg);
     }
 
 }

@@ -6,7 +6,7 @@
 
     <groupId>net.cybercake.cyberapi</groupId>
     <artifactId>CyberAPI</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>CyberAPI</name>
@@ -15,6 +15,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
 
     <build>
         <plugins>
@@ -52,6 +53,7 @@
         </resources>
     </build>
 
+
     <repositories>
         <repository>
             <id>papermc-repo</id>
@@ -81,4 +83,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
 </project>

@@ -9,12 +9,15 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Bungee extends Plugin {
 
@@ -60,9 +63,11 @@ public class Bungee extends Plugin {
     // CONSOLE
     //
 
-    public static net.md_5.bungee.api.ProxyServer getInstance()
-    {
+    public static net.md_5.bungee.api.ProxyServer getInstance() {
         return net.md_5.bungee.api.ProxyServer.getInstance();
+    }
+    public static String getPrefix() {
+        return CyberAPI.getAPI().getBungeePrefix();
     }
 
     //
@@ -74,5 +79,12 @@ public class Bungee extends Plugin {
         Log.error(" ");
         BetterStackTraces.print(exception);
     }
+
+    //
+    // CONSOLE LOGGING
+    //
+    public static void registerCommand(Command commandExecutor) { ProxyServer.getInstance().getPluginManager().registerCommand(Bungee.get(), commandExecutor); }
+    public static void registerListener(Listener listener) { ProxyServer.getInstance().getPluginManager().registerListener(Bungee.get(), listener); }
+    public static void registerRunnable(Runnable runnable, long period) { ProxyServer.getInstance().getScheduler().schedule(Bungee.get(), runnable, 500, period, TimeUnit.MILLISECONDS); }
 
 }

@@ -76,7 +76,7 @@ public class CyberProxyPlayer {
     public CachedMetaData getMetaData() { return this.getLuckpermsUser().getCachedData().getMetaData(); }
     public String getPrefix() { return this.getMetaData().getPrefix(); }
     public String getSuffix() { return this.getMetaData().getSuffix(); }
-    public String getDisplayName() { return this.getMetaData().getPrefix() + player.getName() + this.getMetaData().getSuffix(); }
+    public String getDisplayName() { return (this.getMetaData().getPrefix() == null ? "" : this.getMetaData().getPrefix()) + player.getName() + (this.getMetaData().getSuffix() == null ? "" : this.getMetaData().getSuffix()); }
     public boolean isInLPGroup(String group) { return this.hasPermission("group." + group); }
     public boolean hasPermission(@NotNull String permissionNode) { return this.getLuckpermsUser().getCachedData().getPermissionData().checkPermission(permissionNode).asBoolean(); }
 

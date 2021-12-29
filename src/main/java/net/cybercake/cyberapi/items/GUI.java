@@ -23,7 +23,7 @@ public class GUI {
         }
     }
 
-    public static ItemStack item(Material material, int amount, boolean shiny, String name, String... lore) {
+    public static ItemStack item(Material material, int amount, boolean hideNbt, boolean shiny, String name, String... lore) {
         try {
             ItemStack item = new ItemStack(material, amount);
             ItemMeta meta = item.getItemMeta();
@@ -44,6 +44,9 @@ public class GUI {
                 meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, false);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }
+            if(hideNbt) {
+                meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS);
+            }
             meta.setLore(blankLore);
             item.setItemMeta(meta);
             return item;
@@ -55,15 +58,23 @@ public class GUI {
     }
 
     public static ItemStack item(Material material, int amount, boolean shiny, String name, ArrayList<String> lore) {
-        return item(material, amount, shiny, name, lore.toArray(new String[0]));
+        return item(material, amount, false, shiny, name, lore.toArray(new String[0]));
     }
 
     public static ItemStack item(Material material, int amount, String name, ArrayList<String> lore) {
-        return item(material, amount, false, name, lore.toArray(new String[0]));
+        return item(material, amount, false, false, name, lore.toArray(new String[0]));
     }
 
     public static ItemStack item(Material material, int amount, String name, String... lore) {
-        return item(material, amount, false, name, lore);
+        return item(material, amount, false, false, name, lore);
+    }
+
+    public static ItemStack item(Material material, int amount, boolean hideNbt, String name, String... lore) {
+        return item(material, amount, hideNbt, false, name, lore);
+    }
+
+    public static ItemStack item(Material material, int amount, boolean hideNbt, String name) {
+        return item(material, amount, hideNbt, false, name);
     }
 
     public static ItemStack item(Material material, int amount, String name) {

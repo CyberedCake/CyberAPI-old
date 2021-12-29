@@ -1,5 +1,7 @@
 package net.cybercake.cyberapi.chat;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.instances.Bungee;
@@ -18,8 +20,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.ChatPaginator;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UChat {
 
@@ -207,12 +213,41 @@ public class UChat {
             case BUNGEE:
                 Bungee.getOnlinePlayers().forEach(player -> player.sendMessage(bComponent(msg)));
                 Log.info(chat(msg));
+                break;
             case SPIGOT:
                 Spigot.getOnlinePlayers().forEach(player -> player.sendMessage(component(msg)));
                 Log.info(chat(msg));
+                break;
             default:
                 System.out.println("Couldn't determine server type!");
         }
+    }
+
+    public static String getUUID(String name) {
+        String uuid = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
+            uuid = (((JsonObject)new JsonParser().parse(in)).get("id")).toString().replaceAll("\"", "");
+            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
+            in.close();
+        } catch (Exception e) {
+            System.out.println("Unable to get UUID of: " + name + "!");
+            uuid = "er";
+        }
+        return uuid;
+    }
+
+    public static String getName(UUID uuid) {
+        String name = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).openStream()));
+            name = (((JsonObject)new JsonParser().parse(in)).get("name")).toString().replaceAll("\"", "");
+            in.close();
+        } catch (Exception e) {
+            System.out.println("Unable to get Name of: " + name + "!");
+            name = "er";
+        }
+        return name;
     }
 
 }

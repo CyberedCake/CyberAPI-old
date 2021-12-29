@@ -80,4 +80,38 @@ public class Time {
         return ft.format(dNow);
     }
 
+    public static String getFormattedDateUnix(long unix, String pattern) {
+        Date time = new Date(unix*1000L);
+        SimpleDateFormat ft = new SimpleDateFormat(pattern);
+        return ft.format(time);
+    }
+
+    public static String formatTime(long number) {
+
+        int SECOND = 1000;        // no. of ms in a second
+        int MINUTE = SECOND * 60; // no. of ms in a minute
+        int HOUR = MINUTE * 60;   // no. of ms in an hour
+
+        long hours   = (number / HOUR);
+        long minutes = ((number % HOUR) / MINUTE);
+        long seconds = ((number % MINUTE) / SECOND);
+
+        return hours + "h, " + minutes + "m, " + seconds + "s";
+    }
+
+    public static String formatTimeMs(long number) {
+        return formatTimeMs(number, true);
+    }
+
+    public static String formatTimeMs(long number, boolean minuteLeadingZero) {
+
+        int SECOND = 1000;        // no. of ms in a second
+        int MINUTE = SECOND * 60; // no. of ms in a minuts
+
+        long minutes = (number / MINUTE);
+        long seconds = ((number % MINUTE) / SECOND);
+
+        return (minuteLeadingZero ? "0" : "") + minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds) + "." + ((number % 1000) <= 9 ? "00" + (number % 1000) : ((number % 1000) <= 99 ? "0" + (number % 1000) : (number % 1000)));
+    }
+
 }

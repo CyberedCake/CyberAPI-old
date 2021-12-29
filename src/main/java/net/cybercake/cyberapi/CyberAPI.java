@@ -14,22 +14,24 @@ public class CyberAPI  {
         SPIGOT, BUNGEE
     }
 
-    private static ServerType serverType;
-    private static JavaPlugin spigotPlugin;
-    private static Plugin bungeePlugin;
+    public ServerType serverType;
+    public JavaPlugin spigotPlugin;
+    public Plugin bungeePlugin;
+    public String bungeePrefix;
 
     private static boolean softAPIExceptions;
 
-    public static void initSpigot(JavaPlugin plugin, boolean disableSoftAPIExceptions) {
+    public void initSpigot(JavaPlugin plugin, boolean disableSoftAPIExceptions) {
         spigotPlugin = plugin;
         softAPIExceptions = disableSoftAPIExceptions;
         serverType = ServerType.SPIGOT;
     }
 
-    public static void initBungee(Plugin plugin, boolean disableSoftAPIExceptions) {
+    public void initBungee(Plugin plugin, boolean disableSoftAPIExceptions, String prefix) {
         bungeePlugin = plugin;
         softAPIExceptions = disableSoftAPIExceptions;
         serverType = ServerType.BUNGEE;
+        bungeePrefix = prefix;
     }
 
     public CyberAPI() {
@@ -39,36 +41,30 @@ public class CyberAPI  {
         return new CyberAPI();
     }
 
+    public String getBungeePrefix() { return bungeePrefix; }
+
     public ServerType getServerType() {
         return serverType;
     }
 
-    public static JavaPlugin getSpigotPlugin() {
+    public JavaPlugin getSpigotPlugin() {
         return spigotPlugin;
     }
 
-    public static Plugin getBungeePlugin() {
+    public Plugin getBungeePlugin() {
         return bungeePlugin;
     }
 
 
-    public static String getPrefix(boolean error) {
+    public String getPrefix(boolean error) {
         return (error ? "[CyberAPI Exception]" : "[CyberAPI]");
-    }
-
-    public void wrongServerType(ServerType accessed) throws UnknownServerType {
-        if(!getServerType().equals(accessed)) {
-            logAPIError("Note: You tried accessing a resource that isn't made for your server type! Try accessing only resources used for " + getServerType() + ". Use at your own risk.", true);
-            return;
-        }
-        throw new UnknownServerType("You must specify a valid server type in your onEnable() in order to use the CyberAPI!");
     }
 
     public void logAPIError(String string, boolean soft) {
         switch(getServerType()) {
             case BUNGEE:
                 if(soft) {
-                    if (!this.softAPIExceptions) Bungee.get().getLogger().log(Level.WARNING, getPrefix(true) + " A soft API exception occurred: " + string);
+                    if (!softAPIExceptions) Bungee.get().getLogger().log(Level.WARNING, getPrefix(true) + " A soft API exception occurred: " + string);
                 }else{
                     Bungee.get().getLogger().log(Level.SEVERE, getPrefix(true) + " An API exception occurred: " + string);
                 }
