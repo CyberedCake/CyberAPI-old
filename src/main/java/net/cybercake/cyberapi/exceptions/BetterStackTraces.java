@@ -1,5 +1,6 @@
-package net.cybercake.cyberapi;
+package net.cybercake.cyberapi.exceptions;
 
+import net.cybercake.cyberapi.CyberAPI;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
 
@@ -19,7 +20,7 @@ public class BetterStackTraces {
 
     public static void print(Exception e) {
         for(String str : get(e)) {
-            if(CyberAPI.getAPI().getServerType().equals(CyberAPI.ServerType.SPIGOT)) {
+            if(CyberAPI.serverType.equals(CyberAPI.ServerType.SPIGOT)) {
                 Bukkit.getLogger().severe(str);
             }else{
                 ProxyServer.getInstance().getLogger().severe(str);

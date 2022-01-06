@@ -1,43 +1,62 @@
 package net.cybercake.cyberapi.instances;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.cybercake.cyberapi.BetterStackTraces;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
 import net.cybercake.cyberapi.player.CyberPlayer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.NumberConversions;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 public class Spigot extends JavaPlugin {
 
     public static JavaPlugin get() {
-        return CyberAPI.getAPI().getSpigotPlugin();
+        return CyberAPI.spigotPlugin;
 
     }
 
     //
     // PLAYERS AND CHAT MESSAGING
     //
+    public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle), Title.Times.of(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(stay/20), Duration.ofSeconds(fadeOut/20))));
+    }
+    public static void sendTitle(Player player, String title, String subtitle) {
+        player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle)));
+    }
+    public static void sendTitle(Player player, String title) {
+        player.showTitle(Title.title(UChat.component(title), UChat.component("")));
+    }
     public static ArrayList<Player> getOnlinePlayers() {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return new ArrayList<>();
+        if(get() == null) return new ArrayList<>();
 
         return new ArrayList<>(get().getServer().getOnlinePlayers()); }
     public static List<CyberPlayer> getOnlineCyberPlayers() {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return new ArrayList<>();
+        if(get() == null) return new ArrayList<>();
 
         List<CyberPlayer> ret = new ArrayList<>();
         Spigot.getPlugin(Spigot.class).getServer().getOnlinePlayers().forEach(p -> { ret.add((CyberPlayer) p); });
@@ -45,7 +64,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static List<String> getOnlinePlayersUsernames()  {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return new ArrayList<>();
+        if(get() == null) return new ArrayList<>();
 
         ArrayList<String> onlinePlayers = new ArrayList<>();
         for(Player player : getOnlinePlayers()) { onlinePlayers.add(player.getName()); }
@@ -53,7 +72,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static void broadcast(String msg) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return;
+        if(get() == null) return;
 
         if(Bukkit.getOnlinePlayers().size() == 0) return;
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(UChat.component(msg)));
@@ -61,7 +80,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static List<String> chatToList(String... strings) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return new ArrayList<>();
+        if(get() == null) return new ArrayList<>();
 
         ArrayList<String> chat = new ArrayList<>();
         for(String str : strings) { chat.add(UChat.chat(str)); }
@@ -69,7 +88,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static void performCommand(CommandSender sender, String command) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return;
+        if(get() == null) return;
 
         if(sender instanceof Player) {
             Player player = (Player) sender;
@@ -81,7 +100,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static String getPrefix() {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return "";
+        if(get() == null) return "";
 
         return get().getDescription().getPrefix();
     }
@@ -90,7 +109,7 @@ public class Spigot extends JavaPlugin {
     // ERROR HANDLING
     //
     public static void error(CommandSender commandSender, String anErrorOccurred, Exception exception) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return;
+        if(get() == null) return;
 
         if(commandSender instanceof Player player) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1F, 1F);
@@ -105,7 +124,7 @@ public class Spigot extends JavaPlugin {
     // BUNGEECORD
     //
     public static boolean isBungeeOnline(int port) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return false;
+        if(get() == null) return false;
 
         try {
             Socket s = new Socket("localhost", port);
@@ -131,7 +150,7 @@ public class Spigot extends JavaPlugin {
         return null;
     }
     public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
-        if(CyberAPI.getAPI().getSpigotPlugin() == null) return;
+        if(get() == null) return;
 
         if(sender instanceof Player player) {
             player.playSound(player.getLocation(), sound, volume, pitch);
@@ -140,6 +159,35 @@ public class Spigot extends JavaPlugin {
 
     public static double getOnlyXZDistance(Location loc1, Location loc2) {
         return Math.sqrt(NumberConversions.square(loc1.getX() - loc2.getX()) + NumberConversions.square(loc1.getZ() - loc2.getZ()));
+    }
+    public static FileConfiguration getMainConfig() {
+        return Spigot.get().getConfig();
+    }
+    public static String getUUID(String name) {
+        String uuid = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
+            uuid = (((JsonObject)new JsonParser().parse(in)).get("id")).toString().replaceAll("\"", "");
+            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
+            in.close();
+        } catch (Exception e) {
+            System.out.println("Unable to get UUID of: " + name + "!");
+            uuid = "er";
+        }
+        return uuid;
+    }
+
+    public static String getName(UUID uuid) {
+        String name = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).openStream()));
+            name = (((JsonObject)new JsonParser().parse(in)).get("name")).toString().replaceAll("\"", "");
+            in.close();
+        } catch (Exception e) {
+            System.out.println("Unable to get Name of: " + name + "!");
+            name = "er";
+        }
+        return name;
     }
 
     //

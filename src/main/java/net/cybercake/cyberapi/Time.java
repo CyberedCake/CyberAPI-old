@@ -1,5 +1,7 @@
 package net.cybercake.cyberapi;
 
+import net.cybercake.cyberapi.generalutils.NumberUtils;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
@@ -111,7 +113,7 @@ public class Time {
         long minutes = (number / MINUTE);
         long seconds = ((number % MINUTE) / SECOND);
 
-        return (minuteLeadingZero ? "0" : "") + minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds) + "." + ((number % 1000) <= 9 ? "00" + (number % 1000) : ((number % 1000) <= 99 ? "0" + (number % 1000) : (number % 1000)));
+        return (minuteLeadingZero ? (NumberUtils.isBetweenEquals((int)minutes, 0, 9) ? "0" : "") : "") + minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds) + "." + ((number % 1000) <= 9 ? "00" + (number % 1000) : ((number % 1000) <= 99 ? "0" + (number % 1000) : (number % 1000)));
     }
 
 }

@@ -35,6 +35,20 @@ public class UChat {
 
     public static String chat(String msg) { return chat('&', msg); }
     public static String chat(Character alt, String msg) { return ChatColor.translateAlternateColorCodes(alt, msg); }
+    public static ArrayList<String> listChat(String... message) {
+        ArrayList<String> strings = new ArrayList<>();
+        for(String msg : message) {
+            strings.add(chat(msg));
+        }
+        return strings;
+    }
+    public static ArrayList<String> listChat(Character alt, String... message) {
+        ArrayList<String> strings = new ArrayList<>();
+        for(String msg : message) {
+            strings.add(chat(alt, msg));
+        }
+        return strings;
+    }
     public static Content content(String msg) { return new Text(chat(msg)); }
     public static Content content(Character alt, String msg) { return new Text(chat(alt, msg)); }
     public static Content text(String msg) { return new Text(chat(msg)); }
@@ -209,7 +223,7 @@ public class UChat {
         return ret;
     }
     public static void broadcast(String msg) {
-        switch(CyberAPI.getAPI().getServerType()) {
+        switch(CyberAPI.serverType) {
             case BUNGEE:
                 Bungee.getOnlinePlayers().forEach(player -> player.sendMessage(bComponent(msg)));
                 Log.info(chat(msg));
@@ -223,6 +237,7 @@ public class UChat {
         }
     }
 
+    @Deprecated
     public static String getUUID(String name) {
         String uuid = "";
         try {
@@ -237,6 +252,7 @@ public class UChat {
         return uuid;
     }
 
+    @Deprecated
     public static String getName(UUID uuid) {
         String name = "";
         try {

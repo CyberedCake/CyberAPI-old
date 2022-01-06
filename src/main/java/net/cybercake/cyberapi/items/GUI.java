@@ -1,6 +1,6 @@
 package net.cybercake.cyberapi.items;
 
-import net.cybercake.cyberapi.BetterStackTraces;
+import net.cybercake.cyberapi.exceptions.BetterStackTraces;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
 import org.bukkit.Material;

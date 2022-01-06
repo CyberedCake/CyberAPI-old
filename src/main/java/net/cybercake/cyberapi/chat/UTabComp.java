@@ -1,5 +1,6 @@
 package net.cybercake.cyberapi.chat;
 
+import net.cybercake.cyberapi.NumberUtils;
 import net.cybercake.cyberapi.items.Item;
 
 import java.util.ArrayList;
@@ -54,7 +55,22 @@ public class UTabComp {
         return UTabComp.tabCompletions(UTabComp.TabCompleteType.CONTAINS, arguments, withoutMinecraftColon);
     }
 
+    public static ArrayList<String> getIntegers(String integerArgument, int lowest, int highest) {
+        ArrayList<String> integers = new ArrayList<>();
+        if(!NumberUtils.isInteger(integerArgument)) { return integers; }
+        if(!NumberUtils.isBetweenEquals(Integer.parseInt(integerArgument), lowest, highest)) { return integers; }
+
+        for(int i=1; i<10; i++) {
+            if(!NumberUtils.isBetweenEquals(Integer.parseInt(integerArgument + i), lowest, highest)) continue;
+
+            integers.add(integerArgument + i + "");
+        }
+        return integers;
+    }
+
     public static ArrayList<String> emptyList = new ArrayList<>();
+
+    @Deprecated
     public static ArrayList<String> emptyList() {
         return new ArrayList<>();
     }

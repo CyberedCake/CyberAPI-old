@@ -1,4 +1,4 @@
-package net.cybercake.cyberapi;
+package net.cybercake.cyberapi.generalutils;
 
 import net.cybercake.cyberapi.chat.UChat;
 import net.md_5.bungee.api.ChatColor;

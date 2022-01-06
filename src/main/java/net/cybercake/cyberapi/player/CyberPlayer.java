@@ -1,7 +1,5 @@
 package net.cybercake.cyberapi.player;
 
-import net.cybercake.cyberapi.BetterStackTraces;
-import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.chat.UChat;
 import net.cybercake.cyberapi.chat.DefaultFontInfo;
 import net.luckperms.api.LuckPermsProvider;
