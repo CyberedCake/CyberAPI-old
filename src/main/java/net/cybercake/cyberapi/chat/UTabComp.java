@@ -1,6 +1,6 @@
 package net.cybercake.cyberapi.chat;
 
-import net.cybercake.cyberapi.NumberUtils;
+import net.cybercake.cyberapi.generalutils.NumberUtils;
 import net.cybercake.cyberapi.items.Item;
 
 import java.util.ArrayList;

@@ -2,10 +2,10 @@ package net.cybercake.cyberapi.instances;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.cybercake.cyberapi.BetterStackTraces;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
+import net.cybercake.cyberapi.exceptions.BetterStackTraces;
 import net.cybercake.cyberapi.player.CyberPlayer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
@@ -13,7 +13,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -172,7 +171,7 @@ public class Spigot extends JavaPlugin {
             in.close();
         } catch (Exception e) {
             System.out.println("Unable to get UUID of: " + name + "!");
-            uuid = "er";
+            uuid = null;
         }
         return uuid;
     }
@@ -185,7 +184,7 @@ public class Spigot extends JavaPlugin {
             in.close();
         } catch (Exception e) {
             System.out.println("Unable to get Name of: " + name + "!");
-            name = "er";
+            name = null;
         }
         return name;
     }

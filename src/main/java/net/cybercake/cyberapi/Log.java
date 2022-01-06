@@ -1,6 +1,5 @@
 package net.cybercake.cyberapi;
 
-import net.cybercake.cyberapi.instances.Spigot;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;

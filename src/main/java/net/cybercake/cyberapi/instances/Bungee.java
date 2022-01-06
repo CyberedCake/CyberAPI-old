@@ -2,10 +2,10 @@ package net.cybercake.cyberapi.instances;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.cybercake.cyberapi.BetterStackTraces;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
+import net.cybercake.cyberapi.exceptions.BetterStackTraces;
 import net.cybercake.cyberapi.player.CyberProxyPlayer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -16,7 +16,6 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -106,7 +105,7 @@ public class Bungee extends Plugin {
             in.close();
         } catch (Exception e) {
             System.out.println("Unable to get UUID of: " + name + "!");
-            uuid = "er";
+            uuid = null;
         }
         return uuid;
     }
@@ -119,7 +118,7 @@ public class Bungee extends Plugin {
             in.close();
         } catch (Exception e) {
             System.out.println("Unable to get Name of: " + name + "!");
-            name = "er";
+            name = null;
         }
         return name;
     }
