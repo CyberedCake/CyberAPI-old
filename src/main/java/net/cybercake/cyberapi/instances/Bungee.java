@@ -6,7 +6,7 @@ import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
 import net.cybercake.cyberapi.exceptions.BetterStackTraces;
-import net.cybercake.cyberapi.player.CyberProxyPlayer;
+import net.cybercake.cyberapi.player.CyberBungeePlayer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -28,13 +28,13 @@ import java.util.concurrent.TimeUnit;
 public class Bungee extends Plugin {
 
     public static Plugin get() {
-        return CyberAPI.getAPI().getBungeePlugin();
+        return CyberAPI.bungeePlugin;
     }
 
     //
     // BUNGEE SERVERS AND BUNGEE LISTING
     //
-    public static boolean isBungeeOnline(int port) {
+    public static boolean isServerOnline(int port) {
         try {
             Socket s = new Socket("localhost", port);
             s.close();
@@ -48,9 +48,9 @@ public class Bungee extends Plugin {
     // PLAYERS AND CHAT MESSAGING
     //
     public static ArrayList<ProxiedPlayer> getOnlinePlayers() { return new ArrayList<>(ProxyServer.getInstance().getPlayers()); }
-    public static List<CyberProxyPlayer> getOnlineCyberPlayers() {
-        List<CyberProxyPlayer> ret = new ArrayList<>();
-        ProxyServer.getInstance().getPlayers().forEach(p -> { ret.add((CyberProxyPlayer) p); });
+    public static List<CyberBungeePlayer> getOnlineCyberPlayers() {
+        List<CyberBungeePlayer> ret = new ArrayList<>();
+        ProxyServer.getInstance().getPlayers().forEach(p -> { ret.add((CyberBungeePlayer) p); });
         return ret;
     }
     public static List<String> getOnlinePlayersUsernames()  {

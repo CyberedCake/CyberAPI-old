@@ -12,18 +12,18 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
-public class CyberProxyPlayer {
+public class CyberBungeePlayer {
 
     private final ProxiedPlayer player;
 
-    public CyberProxyPlayer(ProxiedPlayer player) {
+    public CyberBungeePlayer(ProxiedPlayer player) {
         this.player = player;
     }
 
     public ProxiedPlayer getPlayer() { return this.player; }
 
-    public static CyberProxyPlayer getCyberProxyPlayer(ProxiedPlayer player) {
-        return new CyberProxyPlayer(player);
+    public static CyberBungeePlayer getCyberProxyPlayer(ProxiedPlayer player) {
+        return new CyberBungeePlayer(player);
     }
 
     //

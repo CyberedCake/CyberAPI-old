@@ -7,6 +7,7 @@ import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.instances.Bungee;
 import net.cybercake.cyberapi.instances.Spigot;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -43,6 +44,20 @@ public class UChat {
         ArrayList<String> strings = new ArrayList<>();
         for(String msg : message) {
             strings.add(chat(alt, msg));
+        }
+        return strings;
+    }
+    public static ArrayList<Component> listComponent(String... message) {
+        ArrayList<Component> strings = new ArrayList<>();
+        for(String msg : message) {
+            strings.add(component(msg));
+        }
+        return strings;
+    }
+    public static ArrayList<Component> listComponent(Character alt, String... message) {
+        ArrayList<Component> strings = new ArrayList<>();
+        for(String msg : message) {
+            strings.add(component(alt, msg));
         }
         return strings;
     }
@@ -90,49 +105,12 @@ public class UChat {
     }
     // Spigot vvv
     public static Component component(String msg) { return component('&', msg); }
-    public static Component component(Character alt, String msg) { return Component.text(ChatColor.translateAlternateColorCodes(alt, msg)); }
-    public static String spigotGetCenteredMessage(String message, int centerPixel) {
-        if (message == null || message.equals("")) return UChat.chat("");
-
-        message = UChat.chat(message);
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for (char c : message.toCharArray()) {
-            if (c == '§') {
-                previousCode = true;
-                continue;
-            } else if (previousCode) {
-                previousCode = false;
-                if (c == 'l' || c == 'L') {
-                    isBold = true;
-                    continue;
-                } else isBold = false;
-            } else {
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = centerPixel - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-        return UChat.chat(sb + message);
+    public static Component component(Character alt, String msg) { return LegacyComponentSerializer.legacy(alt).deserialize(msg); }
+    @Deprecated public static String spigotGetCenteredMessage(String message) {
+        return CenteredMessage.get(message, 154);
     }
-    public static String spigotGetCenteredMessage(String message) {
-        return spigotGetCenteredMessage(message, 154);
-    }
-    public static void spigotSendCenteredMessage(org.bukkit.command.CommandSender player, String message) {
-        player.sendMessage(UChat.component(spigotGetCenteredMessage(message, 154)));
+    @Deprecated public static void spigotSendCenteredMessage(org.bukkit.command.CommandSender player, String message) {
+        player.sendMessage(UChat.component(CenteredMessage.get(message, 154)));
     }
     public static List<String> paginate(String string, int lineLength) {
         ArrayList<String> pagination = new ArrayList<>();
@@ -160,42 +138,11 @@ public class UChat {
     // Bungee vvv
     public static BaseComponent bComponent(String msg) { return bComponent('&', msg); }
     public static BaseComponent bComponent(Character alt, String msg) { return new TextComponent(chat(alt, msg)); }
-    public static String bungeeGetCenteredMessage(String message, int centered) {
-        if(message == null || message.equals("")) return "";
-        message = ChatColor.translateAlternateColorCodes('&', message);
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for(char c : message.toCharArray()){
-            if(c == '\u00a7'){
-                previousCode = true;
-            }else if(previousCode){
-                previousCode = false;
-                isBold = c == 'l' || c == 'L';
-            }else{
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = centered - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while(compensated < toCompensate){
-            sb.append(" §r");
-            compensated += spaceLength;
-        }
-        return (sb + message);
+    @Deprecated public static String bungeeGetCenteredMessage(String message) {
+        return CenteredMessage.get(message, 154);
     }
-    public static String bungeeGetCenteredMessage(String message) {
-        return bungeeGetCenteredMessage(message, 154);
-    }
-    public static void bungeeSendCenteredMessage(CommandSender player, String message) {
-        player.sendMessage(UChat.bComponent(bungeeGetCenteredMessage(message, 154)));
+    @Deprecated public static void bungeeSendCenteredMessage(CommandSender player, String message) {
+        player.sendMessage(UChat.bComponent(CenteredMessage.get(message, 154)));
     }
 
     //

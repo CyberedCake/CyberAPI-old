@@ -1,12 +1,13 @@
 package net.cybercake.cyberapi;
 
-import net.md_5.bungee.api.ChatColor;
+import net.cybercake.cyberapi.instances.Bungee;
+import net.cybercake.cyberapi.instances.Spigot;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CyberAPI  {
 
-    public final String version = "1.2.0";
+    public final String version = "1.3.0";
     public final int protocol = 4;
 
     public enum ServerType {
@@ -17,22 +18,52 @@ public class CyberAPI  {
 
     public static JavaPlugin spigotPlugin;
 
-    public static ServerType serverType = ServerType.SPIGOT;
+    public static ServerType serverType;
+
+    public static boolean prefixInLogs = true;
 
     public CyberAPI() {
     }
 
-    public static void initSpigot(JavaPlugin plugin) {
-        CyberAPI.serverType = CyberAPI.ServerType.SPIGOT;
-        spigotPlugin = plugin;
-        Log.info(ChatColor.GOLD + getAPI().getPrefix(false) + " The plugin " + ChatColor.GREEN + plugin.getDescription().getName() + ChatColor.GOLD + " is using CyberAPI version " + ChatColor.YELLOW + getAPI().getVersion() + ChatColor.GOLD + "! Plugin type is " + ChatColor.GREEN + "Spigot" + ChatColor.GOLD + ", as marked by the plugin developer.");
+    public void sendStartupMessage() {
+        switch(serverType) {
+            case BUNGEE -> sendStartupMessage(Bungee.get().getDescription().getName());
+            case SPIGOT -> sendStartupMessage(Spigot.get().getDescription().getName());
+        }
     }
 
-    public static void initBungee(Plugin plugin, String prefix) {
+    private static void sendStartupMessage(String pluginName) {
+        String typeFormatted = null;
+        switch(CyberAPI.serverType) {
+            case SPIGOT -> typeFormatted = "&aSPIGOT";
+            case BUNGEE -> typeFormatted = "&9BUNGEE";
+        }
+        String msg = "&d" + getAPI().getPrefix(false) + " The plugin &c" + pluginName + " &dis using CyberAPI version &e" + getAPI().getVersion() + "&d! The plugin's type is " + typeFormatted + "&d, as marked by the plugin developer.";
+
+        Log.info(msg);
+    }
+
+    public static void initSpigot(JavaPlugin plugin) {
+        initSpigot(plugin, true);
+    }
+
+    public static void initSpigot(JavaPlugin plugin, boolean sendPrefixInLogs) {
+        CyberAPI.serverType = CyberAPI.ServerType.SPIGOT;
+        spigotPlugin = plugin;
+        prefixInLogs = sendPrefixInLogs;
+        sendStartupMessage(plugin.getDescription().getName());
+    }
+
+    public static void initBungee(Plugin plugin) {
+        initBungee(plugin, plugin.getDescription().getName(), true);
+    }
+
+    public static void initBungee(Plugin plugin, String prefix, boolean sendPrefixInLogs) {
         CyberAPI.serverType = ServerType.BUNGEE;
         bungeePlugin = plugin;
         bungeePrefix = prefix;
-        Log.info(ChatColor.GOLD + getAPI().getPrefix(false) + " The plugin " + ChatColor.GREEN + plugin.getDescription().getName() + ChatColor.GOLD + " is using CyberAPI version " + ChatColor.YELLOW + getAPI().getVersion() + ChatColor.GOLD + "! Plugin type is " + ChatColor.BLUE + "BungeeCord" + ChatColor.GOLD + ", as marked by the plugin developer.");
+        prefixInLogs = sendPrefixInLogs;
+        sendStartupMessage(plugin.getDescription().getName());
     }
 
     public static CyberAPI getAPI() {
@@ -40,10 +71,6 @@ public class CyberAPI  {
     }
 
     public String getBungeePrefix() { return bungeePrefix; }
-
-    public Plugin getBungeePlugin() {
-        return bungeePlugin;
-    }
 
     public String getPrefix(boolean error) {
         return (error ? "[CyberAPI Exception]" : "[CyberAPI]");

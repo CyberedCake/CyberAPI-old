@@ -2,6 +2,7 @@ package net.cybercake.cyberapi.chat;
 
 import net.cybercake.cyberapi.generalutils.NumberUtils;
 import net.cybercake.cyberapi.items.Item;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +69,6 @@ public class UTabComp {
         return integers;
     }
 
+    public static ArrayList<Component> emptyComponentList = new ArrayList<>();
     public static ArrayList<String> emptyList = new ArrayList<>();
-
-    @Deprecated
-    public static ArrayList<String> emptyList() {
-        return new ArrayList<>();
-    }
 }

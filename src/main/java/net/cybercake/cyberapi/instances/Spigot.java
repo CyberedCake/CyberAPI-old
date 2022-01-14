@@ -190,6 +190,28 @@ public class Spigot extends JavaPlugin {
     }
 
     //
+    // LOCATION
+    //
+    public static Location getTopBlock(Location checkEmpty) {
+        return getTopBlock(checkEmpty, 319);
+    }
+
+    public static Location getTopBlock(Location checkEmpty, long yStartChecking) {
+        checkEmpty.setY(yStartChecking);
+        for(int i=0; i<yStartChecking; i++) {
+            if(checkEmpty.getWorld().getBlockAt(checkEmpty).isEmpty()) {
+                checkEmpty.setY(checkEmpty.getY() - 1);
+            }else if(!checkEmpty.getWorld().getBlockAt(new Location(checkEmpty.getWorld(), checkEmpty.getX(), checkEmpty.getY()+1, checkEmpty.getZ(), checkEmpty.getYaw(), checkEmpty.getPitch())).isEmpty()) {
+                checkEmpty.setY(checkEmpty.getY() - 1);
+            }else if(!checkEmpty.getWorld().getBlockAt(checkEmpty).isEmpty()) {
+                checkEmpty.setY(checkEmpty.getY()+1);
+                return checkEmpty;
+            }
+        }
+        return null;
+    }
+
+    //
     // CONSOLE LOGGING
     //
     public static void registerCommand(String name, CommandExecutor commandExecutor) { Spigot.get().getCommand(name).setExecutor(commandExecutor); }
