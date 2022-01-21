@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CyberAPI  {
 
-    public final String version = "1.4.0";
+    public final String version = "1.4.1";
     public final int protocol = 4;
 
     public enum ServerType {
