@@ -127,4 +127,21 @@ public class StringUtils {
         }
     }
 
+    public static String pluralize(String message, int value) {
+        String ret = message.replaceAll("!#", String.valueOf(value));
+        ret = ret.replaceAll("!s", ((value == 1)?"":"s"));        // sword | swords
+        ret = ret.replaceAll("!es", ((value == 1)?"":"es"));      // bus | buses
+        ret = ret.replaceAll("!ies", ((value == 1)?"y":"ies"));   // penny | pennies
+        ret = ret.replaceAll("!oo", ((value == 1)?"oo":"ee"));    // tooth | teeth
+        ret = ret.replaceAll("!an", ((value == 1)?"an":"en"));    // woman | women
+        ret = ret.replaceAll("!us", ((value == 1)?"us":"i"));     // cactus | cacti
+        ret = ret.replaceAll("!is", ((value == 1)?"is":"es"));    // analysis | analyses
+        ret = ret.replaceAll("!o", ((value == 1)?"o":"oes"));     // potato | potatoes
+        ret = ret.replaceAll("!on", ((value == 1)?"a":"on"));     // criteria | criterion
+        ret = ret.replaceAll("!lf", ((value == 1)?"lf":"lves"));  // elf | elves
+        ret = ret.replaceAll("!ia", ((value == 1)?"is":"are"));
+        ret = ret.replaceAll("!ww", ((value == 1)?"was":"were"));
+        return ret;
+    }
+
 }

@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CyberAPI  {
 
-    public final String version = "1.3.0";
+    public final String version = "1.4.0";
     public final int protocol = 4;
 
     public enum ServerType {
@@ -49,6 +49,7 @@ public class CyberAPI  {
 
     public static void initSpigot(JavaPlugin plugin, boolean sendPrefixInLogs) {
         CyberAPI.serverType = CyberAPI.ServerType.SPIGOT;
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         spigotPlugin = plugin;
         prefixInLogs = sendPrefixInLogs;
         sendStartupMessage(plugin.getDescription().getName());
@@ -72,8 +73,21 @@ public class CyberAPI  {
 
     public String getBungeePrefix() { return bungeePrefix; }
 
+    /**
+     * Prints [CyberAPI Exception] if it's errored and [CyberAPI] if it's not errored (space after bracket not included!)
+     * @param error if it is an error the prefix is display on
+     * @return the prefix for CyberAPI
+     */
     public String getPrefix(boolean error) {
-        return (error ? "[CyberAPI Exception]" : "[CyberAPI]");
+        return (error ? "[CyberAPI Exception]" : getPrefix());
+    }
+
+    /**
+     * returns [CyberAPI] (space after bracket not included!)
+     * @return the prefix for CyberAPI
+     */
+    public String getPrefix() {
+        return "[CyberAPI]";
     }
 
     public int getProtocol() {

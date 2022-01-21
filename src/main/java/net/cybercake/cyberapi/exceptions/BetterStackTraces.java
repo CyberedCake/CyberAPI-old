@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class BetterStackTraces {
 
@@ -22,6 +23,15 @@ public class BetterStackTraces {
             switch (CyberAPI.serverType) {
                 case SPIGOT -> Bukkit.getLogger().severe(str);
                 case BUNGEE -> ProxyServer.getInstance().getLogger().severe(str);
+            }
+        }
+    }
+
+    public static void print(Level logLevel, Exception exception) {
+        for(String str : get(exception)) {
+            switch (CyberAPI.serverType) {
+                case SPIGOT -> Bukkit.getLogger().log(logLevel, str);
+                case BUNGEE -> ProxyServer.getInstance().getLogger().log(logLevel, str);
             }
         }
     }

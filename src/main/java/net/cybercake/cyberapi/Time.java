@@ -101,6 +101,19 @@ public class Time {
         return hours + "h, " + minutes + "m, " + seconds + "s";
     }
 
+    public static String formatTimeColons(long number) {
+
+        int SECOND = 1000;        // no. of ms in a second
+        int MINUTE = SECOND * 60; // no. of ms in a minute
+        int HOUR = MINUTE * 60;   // no. of ms in an hour
+
+        long hours   = (number / HOUR);
+        long minutes = ((number % HOUR) / MINUTE);
+        long seconds = ((number % MINUTE) / SECOND);
+
+        return (hours != 0 ? hours + ":" : "") + (NumberUtils.isBetweenEquals(minutes, 0, 9) ? "0" : "") + minutes + ":" + (NumberUtils.isBetweenEquals(seconds, 0, 9) ? "0" : "") + seconds + "";
+    }
+
     public static String formatTimeMs(long number) {
         return formatTimeMs(number, true);
     }

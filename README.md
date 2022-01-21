@@ -4,13 +4,12 @@ CyberAPI is used for some of Cyber's plugins, including CyberNet ones!
 # How to use
 
 ## Installation
-Install the jar file and include it in your libraries for your project (seen below, IntelliJ is shown)
+You can install this by going **_[here](https://jitpack.io/#CyberedCake/CyberAPI/)_** and clicking on gradle or 
+maven and adding to your pom.xml or build.gradle!
 
-![img.png](img.png)
+- Make sure you use the latest version, which is marked below:
 
-After this, press the "apply" button then close that menu.
-
-Please note: everytime you reload your maven/gradle, it will disable CyberAPI. I will fix that eventually.
+    [![](https://jitpack.io/v/CyberedCake/CyberAPI.svg)](https://jitpack.io/#CyberedCake/CyberAPI)
 
 ## Usage
 To use CyberAPI, write this in your main onEnable stuff

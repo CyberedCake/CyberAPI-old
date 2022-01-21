@@ -1,7 +1,11 @@
 package net.cybercake.cyberapi.player;
 
+import com.sun.tools.javac.Main;
+import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
 import net.cybercake.cyberapi.chat.DefaultFontInfo;
+import net.cybercake.cyberapi.exceptions.BetterStackTraces;
+import net.cybercake.cyberapi.instances.Spigot;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.luckperms.api.model.user.User;
@@ -13,6 +17,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class CyberPlayer {
 
@@ -107,6 +115,28 @@ public class CyberPlayer {
     public void kick() {
         kick("Disconnected");
     }
+    public void connectThrow(String server) throws IOException {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        out.writeUTF("Connect");
+        out.writeUTF(server);
+        player.sendPluginMessage(Spigot.get(), "BungeeCord", b.toByteArray());
+        b.close();
+        out.close();
+    }
+    public void connect(String server) {
+        try {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+            out.writeUTF("Connect");
+            out.writeUTF(server);
+            player.sendPluginMessage(Spigot.get(), "BungeeCord", b.toByteArray());
+            b.close();
+            out.close();
+        } catch (Exception exception) {
+            BetterStackTraces.print(exception);
+        }
+    }
 
 
     //
@@ -145,5 +175,6 @@ public class CyberPlayer {
     public void playSound(Sound sound, float volume, float pitch) {
         player.playSound(player.getLocation(), sound, volume, pitch);
     }
+
 
 }

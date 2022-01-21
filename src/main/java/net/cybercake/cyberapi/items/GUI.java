@@ -3,6 +3,8 @@ package net.cybercake.cyberapi.items;
 import net.cybercake.cyberapi.exceptions.BetterStackTraces;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.chat.UChat;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;

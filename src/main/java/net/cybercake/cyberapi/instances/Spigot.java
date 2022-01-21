@@ -13,8 +13,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.NumberConversions;
 import org.jetbrains.annotations.Nullable;
@@ -209,6 +213,28 @@ public class Spigot extends JavaPlugin {
             }
         }
         return null;
+    }
+
+    //
+    // RECIPES
+    //
+
+    /**
+     * If anyone has any better idea on how to do this, lemme know
+     *
+     * This code has been taken from: https://www.spigotmc.org/threads/learn-all-recipes.450378/
+     * @return list of namespace keys that contain all recipes
+     */
+    public static List<NamespacedKey> getAllRegisteredRecipes() {
+        List<NamespacedKey> recipeKeys = new ArrayList<>();
+        Spigot.get().getServer().recipeIterator().forEachRemaining(recipe -> {
+            if(recipe instanceof ShapedRecipe shaped) {
+                recipeKeys.add(shaped.getKey());
+            }else if(recipe instanceof ShapelessRecipe shapeless) {
+                recipeKeys.add(shapeless.getKey());
+            }
+        });
+        return recipeKeys;
     }
 
     //

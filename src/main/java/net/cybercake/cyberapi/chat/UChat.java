@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
+import net.cybercake.cyberapi.generalutils.StringUtils;
 import net.cybercake.cyberapi.instances.Bungee;
 import net.cybercake.cyberapi.instances.Spigot;
 import net.kyori.adventure.text.Component;
@@ -103,15 +104,38 @@ public class UChat {
         }
         return progress;
     }
+
+    //
     // Spigot vvv
+    //
+
+    /**
+     * Gives you an adventure 'Component' that can be used better in spigot-fork sendMessage or other related
+     * messages.
+     * @apiNote This is a PAPERSPIGOT only method!
+     * @param msg the message to send
+     * @return an adventure Component to be used in spigot-related messages
+     */
     public static Component component(String msg) { return component('&', msg); }
-    public static Component component(Character alt, String msg) { return LegacyComponentSerializer.legacy(alt).deserialize(msg); }
-    @Deprecated public static String spigotGetCenteredMessage(String message) {
-        return CenteredMessage.get(message, 154);
-    }
-    @Deprecated public static void spigotSendCenteredMessage(org.bukkit.command.CommandSender player, String message) {
-        player.sendMessage(UChat.component(CenteredMessage.get(message, 154)));
-    }
+
+    /**
+     * Gives you an adventure 'Component' that can be used better in spigot-fork sendMessage or other related
+     * messages. The alt code is the same as 'ChatColor.translateAltColorCodes(right here is usually the alt, ...)'
+     * @apiNote This is a PAPERSPIGOT only method!
+     * @param alt the alt color code
+     * @param msg the message to send
+     * @return an adventure Component to be used in spigot-related messages
+     */
+    public static Component component(Character alt, String msg) { return Component.text(chat(alt, msg)); }
+
+    /**
+     * Paginate strings into different lines based on length. This means that strings will be put on a separate item in a
+     * list if the line length does not match. You can set the line length by doing the same method but adding a number to
+     * the end.
+     * @param string the string you want to input, will be split up accordingly
+     * @return returns a list in which every item is a string
+     * @apiNote This is a SPIGOT only method!
+     */
     public static List<String> paginate(String string, int lineLength) {
         ArrayList<String> pagination = new ArrayList<>();
         for(String str : ChatPaginator.wordWrap(string, lineLength)) {
@@ -120,10 +144,26 @@ public class UChat {
         return pagination;
     }
 
+    /**
+     * Paginate strings into different lines based on length. This means that strings will be put on a separate item in a
+     * list if the line length does not match. You can set the line length by doing the same method but adding a number to
+     * the end.
+     * @param string the string you want to input, will be split up accordingly
+     * @return returns a list in which every item is a string
+     * @apiNote This is a SPIGOT only method!
+     */
     public static List<String> paginate(String string) {
         return paginate(string, 30);
     }
 
+    /**
+     * Paginate components rather than strings. This means that components will be put on a separate item in a list if
+     * the line length does not match.
+     * @param string the string you want to input, will be split up accordingly
+     * @param lineLength the amount of length the {@link ChatPaginator bukkit ChatPaginator} will take before wrapping the line
+     * @return returns a list in which every item is an adventure component
+     * @apiNote This is a PAPERSPIGOT only method!
+     */
     public static List<Component> paginateComponents(String string, int lineLength) {
         ArrayList<Component> pagination = new ArrayList<>();
         for(String str : ChatPaginator.wordWrap(UChat.chat(string), lineLength)) {
@@ -132,24 +172,63 @@ public class UChat {
         return pagination;
     }
 
+    /**
+     * Paginate components rather than strings. This means that components will be put on a separate item in a list if
+     * the line length does not match. You can set the line length by doing the same method but adding a number to the end.
+     * @param string the string you want to input, will be split up accordingly
+     * @return returns a list in which every item is an adventure component
+     * @apiNote This is a PAPERSPIGOT only method!
+     */
     public static List<Component> paginateComponents(String string) {
         return paginateComponents(string, 30);
     }
-    // Bungee vvv
+
+    //
+    // BUNGEECORD
+    //
+
+    /**
+     * Gives you a bungeecord 'BaseComponent' that can be used better in bungee-fork sendMessage or other related
+     * messages. The 'b' at the beginning of this method's name (bComponent) is to signify Bungeecord
+     * @apiNote This is a BUNGEECORD only method!
+     * @param msg the message to send
+     * @return a BaseComponent to be used in bungee-related messages
+     */
     public static BaseComponent bComponent(String msg) { return bComponent('&', msg); }
+
+    /**
+     * Gives you a bungeecord 'BaseComponent' that can be used better in bungee-fork sendMessage or other related
+     * messages. The 'b' at the beginning of this method's name (bComponent) is to signify Bungeecord. The alt code
+     * is the same as 'ChatColor.translateAltColorCodes(right here is usually the alt, ...)'
+     * @apiNote This is a BUNGEECORD only method!
+     * @param alt the alt color code
+     * @param msg the message to send
+     * @return a BaseComponent to be used in bungee-related messages
+     */
     public static BaseComponent bComponent(Character alt, String msg) { return new TextComponent(chat(alt, msg)); }
-    @Deprecated public static String bungeeGetCenteredMessage(String message) {
-        return CenteredMessage.get(message, 154);
-    }
-    @Deprecated public static void bungeeSendCenteredMessage(CommandSender player, String message) {
-        player.sendMessage(UChat.bComponent(CenteredMessage.get(message, 154)));
-    }
 
     //
     // MISC
     //
+
+    /**
+     * Returns an empty list.
+     * @return the empty list
+     * @deprecated please use {@link UTabComp#emptyList UTabComp's empty list} instead!
+     */
+    @Deprecated
     public static ArrayList<String> emptyList(){
         return new ArrayList<>(); }
+
+    /**
+     *
+     * Returns a plural version of a string based on the value fed in
+     * @param message the message you want to convert to plural, include the plural version
+     * @param value the amount of values you have
+     * @return returns the string but in its plural form
+     * @deprecated use {@linkplain StringUtils#pluralize(String, int) StringUtils.pluralize()} instead of this method!
+     */
+    @Deprecated
     public static String pluralize(String message, int value) {
         String ret = message.replaceAll("!#", String.valueOf(value));
         ret = ret.replaceAll("!s", ((value == 1)?"":"s"));        // sword | swords
@@ -166,48 +245,25 @@ public class UChat {
         ret = ret.replaceAll("!ww", ((value == 1)?"was":"were"));
         return ret;
     }
+
+    /**
+     * Broadcasts a message based on if the plugin type is a fork of bungeecord or fork of
+     * spigot. Includes color and logs to console in color as well.
+     * @param msg the message you want to broadcast to the entire server/servers
+     */
     public static void broadcast(String msg) {
-        switch(CyberAPI.serverType) {
-            case BUNGEE:
+        switch (CyberAPI.serverType) {
+            case BUNGEE -> {
                 Bungee.getOnlinePlayers().forEach(player -> player.sendMessage(bComponent(msg)));
                 Log.info(chat(msg));
-                break;
-            case SPIGOT:
+            }
+            case SPIGOT -> {
                 Spigot.getOnlinePlayers().forEach(player -> player.sendMessage(component(msg)));
                 Log.info(chat(msg));
-                break;
-            default:
-                System.out.println("Couldn't determine server type!");
+            }
+            default -> System.out.println("Couldn't determine server type!");
         }
     }
 
-    @Deprecated
-    public static String getUUID(String name) {
-        String uuid = "";
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
-            uuid = (((JsonObject)new JsonParser().parse(in)).get("id")).toString().replaceAll("\"", "");
-            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
-            in.close();
-        } catch (Exception e) {
-            System.out.println("Unable to get UUID of: " + name + "!");
-            uuid = "er";
-        }
-        return uuid;
-    }
-
-    @Deprecated
-    public static String getName(UUID uuid) {
-        String name = "";
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).openStream()));
-            name = (((JsonObject)new JsonParser().parse(in)).get("name")).toString().replaceAll("\"", "");
-            in.close();
-        } catch (Exception e) {
-            System.out.println("Unable to get Name of: " + name + "!");
-            name = "er";
-        }
-        return name;
-    }
 
 }
