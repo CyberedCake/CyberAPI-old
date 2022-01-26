@@ -11,6 +11,50 @@ maven and adding to your pom.xml or build.gradle!
 
     [![](https://jitpack.io/v/CyberedCake/CyberAPI.svg)](https://jitpack.io/#CyberedCake/CyberAPI)
 
+Basically, you can add CyberAPI by using...
+
+<details>
+  <summary>... Maven (Click to expand/shrink)</summary>
+  
+  ## Adding CyberAPI (Maven)
+    
+  Add this to your maven repositories...  
+  ```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+ </repository>
+  ```
+    
+  Add this to your maven dependencies...
+  ```xml
+<dependency>
+    <groupId>com.github.CyberedCake</groupId>
+    <artifactId>CyberAPI</artifactId>
+    <version>Put latest version with a 'v' in front HERE</version>
+</dependency>
+   ```
+</details>
+
+<details>
+  <summary>... Gradle (Click to expand/shrink)</summary>
+  
+  ## Adding CyberAPI (Gradle)
+    
+  Add this to your build.gradle...  
+  ```gradle
+repositories {
+	maven { url 'https://jitpack.io' }
+}
+  ```
+    
+  ```gradle
+dependencies {
+	implementation 'com.github.CyberedCake:CyberAPI:Put latest version with a 'v' in front HERE'
+}
+   ```
+</details>
+
 ## Usage
 To use CyberAPI, write this in your main onEnable stuff
 ```java
