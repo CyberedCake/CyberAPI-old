@@ -7,7 +7,7 @@ CyberAPI is used for some of Cyber's plugins, including CyberNet ones!
 You can install this by going **_[here](https://jitpack.io/#CyberedCake/CyberAPI/)_** and clicking on gradle or 
 maven and adding to your pom.xml or build.gradle!
 
-- Replace "Tag" in the 'version' section of Maven or Gradle with the version below (exclude "JitPack"):
+- Replace "Tag" in the 'version' section of Maven or Gradle with the version below (exclude "JitPack" and put a "v" in front of it):
 
     [![](https://jitpack.io/v/CyberedCake/CyberAPI.svg)](https://jitpack.io/#CyberedCake/CyberAPI)
 
