@@ -63,6 +63,8 @@ public class Main extends Bungee { // if your plugin is bungee or a fork of bung
 
 	@Override
 	public void onEnable() {
+		// make sure CyberAPI.init... is always the first thing in your onEnable class if it accesses anything (like Log#info or something)
+	
 		CyberAPI.initSpigot(this); // if your plugin is spigot or a fork of spigot (paper)
 		CyberAPI.initBungee(this); // if your plugin is bungee or a fork of bungee (waterfall)
 	}
