@@ -58,9 +58,14 @@ dependencies {
 ## Usage
 To use CyberAPI, write this in your main onEnable stuff
 ```java
-@Override
-public void onEnable() {
-    CyberAPI.initSpigot(this); // if your plugin is spigot or a fork of spigot (paper)
-    CyberAPI.initBungee(this); // if your plugin is bungee or a fork of bungee (waterfall)
+public class Main extends Spigot { // if your plugin is spigot or a fork of spigot (paper)
+public class Main extends Bungee { // if your plugin is bungee or a fork of bungee (waterfall)
+
+	@Override
+	public void onEnable() {
+		CyberAPI.initSpigot(this); // if your plugin is spigot or a fork of spigot (paper)
+		CyberAPI.initBungee(this); // if your plugin is bungee or a fork of bungee (waterfall)
+	}
+
 }
 ```
