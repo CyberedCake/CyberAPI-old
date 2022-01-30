@@ -4,6 +4,9 @@ CyberAPI is used for some of Cyber's plugins, including CyberNet ones!
 # How to use
 
 ## Installation
+
+### It is recommended that use Paper if you're using a Spigot fork or use Waterfall if you're using a Bungeecord fork!
+
 You can install this by going **_[here](https://jitpack.io/#CyberedCake/CyberAPI/)_** and clicking on gradle or 
 maven and adding to your pom.xml or build.gradle!
 
