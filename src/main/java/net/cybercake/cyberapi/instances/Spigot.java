@@ -35,29 +35,34 @@ import java.util.UUID;
 
 public class Spigot extends JavaPlugin {
 
-    public static JavaPlugin get() {
-        return CyberAPI.spigotPlugin;
-
+    public static JavaPlugin getPlugin() {
+        return CyberAPI.getAPI().getSpigotPlugin();
     }
 
     //
     // PLAYERS AND CHAT MESSAGING
     //
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle), Title.Times.of(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(stay/20), Duration.ofSeconds(fadeOut/20))));
+        try {
+            player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle), Title.Times.of(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(stay/20), Duration.ofSeconds(fadeOut/20))));
+        } catch (Exception exception) {
+            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
     }
     public static void sendTitle(Player player, String title, String subtitle) {
-        player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle)));
+        try {
+            player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle)));
+        } catch (Exception exception) {
+            player.sendTitle(title, subtitle);
+        }
     }
-    public static void sendTitle(Player player, String title) {
-        player.showTitle(Title.title(UChat.component(title), UChat.component("")));
-    }
-    public static ArrayList<Player> getOnlinePlayers() {
-        if(get() == null) return new ArrayList<>();
 
-        return new ArrayList<>(get().getServer().getOnlinePlayers()); }
+    public static ArrayList<Player> getOnlinePlayers() {
+        if(getPlugin() == null) return new ArrayList<>();
+
+        return new ArrayList<>(getPlugin().getServer().getOnlinePlayers()); }
     public static List<CyberPlayer> getOnlineCyberPlayers() {
-        if(get() == null) return new ArrayList<>();
+        if(getPlugin() == null) return new ArrayList<>();
 
         List<CyberPlayer> ret = new ArrayList<>();
         Spigot.getPlugin(Spigot.class).getServer().getOnlinePlayers().forEach(p -> { ret.add((CyberPlayer) p); });
@@ -65,7 +70,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static List<String> getOnlinePlayersUsernames()  {
-        if(get() == null) return new ArrayList<>();
+        if(getPlugin() == null) return new ArrayList<>();
 
         ArrayList<String> onlinePlayers = new ArrayList<>();
         for(Player player : getOnlinePlayers()) { onlinePlayers.add(player.getName()); }
@@ -73,7 +78,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static void broadcast(String msg) {
-        if(get() == null) return;
+        if(getPlugin() == null) return;
 
         if(Bukkit.getOnlinePlayers().size() == 0) return;
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(UChat.component(msg)));
@@ -81,7 +86,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static List<String> chatToList(String... strings) {
-        if(get() == null) return new ArrayList<>();
+        if(getPlugin() == null) return new ArrayList<>();
 
         ArrayList<String> chat = new ArrayList<>();
         for(String str : strings) { chat.add(UChat.chat(str)); }
@@ -89,7 +94,7 @@ public class Spigot extends JavaPlugin {
     }
 
     public static void performCommand(CommandSender sender, String command) {
-        if(get() == null) return;
+        if(getPlugin() == null) return;
 
         if(sender instanceof Player) {
             Player player = (Player) sender;
@@ -101,16 +106,16 @@ public class Spigot extends JavaPlugin {
     }
 
     public static String getPrefix() {
-        if(get() == null) return "";
+        if(getPlugin() == null) return "";
 
-        return get().getDescription().getPrefix();
+        return getPlugin().getDescription().getPrefix();
     }
 
     //
     // ERROR HANDLING
     //
     public static void error(CommandSender commandSender, String anErrorOccurred, Exception exception) {
-        if(get() == null) return;
+        if(getPlugin() == null) return;
 
         if(commandSender instanceof Player player) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1F, 1F);
@@ -125,7 +130,7 @@ public class Spigot extends JavaPlugin {
     // BUNGEECORD
     //
     public static boolean isBungeeOnline(int port) {
-        if(get() == null) return false;
+        if(getPlugin() == null) return false;
 
         try {
             Socket s = new Socket("localhost", port);
@@ -151,7 +156,7 @@ public class Spigot extends JavaPlugin {
         return null;
     }
     public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
-        if(get() == null) return;
+        if(getPlugin() == null) return;
 
         if(sender instanceof Player player) {
             player.playSound(player.getLocation(), sound, volume, pitch);
@@ -162,7 +167,7 @@ public class Spigot extends JavaPlugin {
         return Math.sqrt(NumberConversions.square(loc1.getX() - loc2.getX()) + NumberConversions.square(loc1.getZ() - loc2.getZ()));
     }
     public static FileConfiguration getMainConfig() {
-        return Spigot.get().getConfig();
+        return Spigot.getPlugin().getConfig();
     }
     public static String getUUID(String name) {
         String uuid = "";
@@ -225,7 +230,7 @@ public class Spigot extends JavaPlugin {
      */
     public static List<NamespacedKey> getAllRegisteredRecipes() {
         List<NamespacedKey> recipeKeys = new ArrayList<>();
-        Spigot.get().getServer().recipeIterator().forEachRemaining(recipe -> {
+        Spigot.getPlugin().getServer().recipeIterator().forEachRemaining(recipe -> {
             if(recipe instanceof ShapedRecipe shaped) {
                 recipeKeys.add(shaped.getKey());
             }else if(recipe instanceof ShapelessRecipe shapeless) {
@@ -238,10 +243,10 @@ public class Spigot extends JavaPlugin {
     //
     // CONSOLE LOGGING
     //
-    public static void registerCommand(String name, CommandExecutor commandExecutor) { Spigot.get().getCommand(name).setExecutor(commandExecutor); }
-    public static void registerTabCompleter(String name, TabCompleter tabCompleter) { Spigot.get().getCommand(name).setTabCompleter(tabCompleter); }
-    public static void registerListener(Listener listener) { Spigot.get().getServer().getPluginManager().registerEvents(listener, Spigot.get()); }
-    public static int registerRunnableInt(Runnable runnable, long period) { return Bukkit.getScheduler().scheduleSyncRepeatingTask(Spigot.get(), runnable, 10L, period); }
-    public static void registerRunnable(Runnable runnable, long period) { Bukkit.getScheduler().scheduleSyncRepeatingTask(Spigot.get(), runnable, 10L, period); }
+    public static void registerCommand(String name, CommandExecutor commandExecutor) { Spigot.getPlugin().getCommand(name).setExecutor(commandExecutor); }
+    public static void registerTabCompleter(String name, TabCompleter tabCompleter) { Spigot.getPlugin().getCommand(name).setTabCompleter(tabCompleter); }
+    public static void registerListener(Listener listener) { Spigot.getPlugin().getServer().getPluginManager().registerEvents(listener, Spigot.getPlugin()); }
+    public static int registerRunnableInt(Runnable runnable, long period) { return Bukkit.getScheduler().scheduleSyncRepeatingTask(Spigot.getPlugin(), runnable, 10L, period); }
+    public static void registerRunnable(Runnable runnable, long period) { Bukkit.getScheduler().scheduleSyncRepeatingTask(Spigot.getPlugin(), runnable, 10L, period); }
 
 }

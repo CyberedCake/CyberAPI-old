@@ -26,7 +26,7 @@ public class YamlUtils {
 
     public static void saveCustomYml(String fileName) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + fileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + fileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
             try {
                 customConfig.save(customYml);
@@ -68,7 +68,7 @@ public class YamlUtils {
 
     public static Object getCustomYmlObject(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.get(path);
@@ -92,7 +92,7 @@ public class YamlUtils {
 
     public static String getCustomYmlString(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getString(path);
@@ -116,7 +116,7 @@ public class YamlUtils {
 
     public static List<?> getCustomYmlList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getList(path);
@@ -140,7 +140,7 @@ public class YamlUtils {
 
     public static boolean getCustomYmlBoolean(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getBoolean(path);
@@ -164,7 +164,7 @@ public class YamlUtils {
 
     public static double getCustomYmlDouble(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getDouble(path);
@@ -188,7 +188,7 @@ public class YamlUtils {
 
     public static int getCustomYmlInt(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getInt(path);
@@ -212,7 +212,7 @@ public class YamlUtils {
 
     public static List<Character> getCustomYmlCharacterList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getCharacterList(path);
@@ -236,7 +236,7 @@ public class YamlUtils {
 
     public static Color getCustomYmlColor(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getColor(path);
@@ -260,7 +260,7 @@ public class YamlUtils {
 
     public static List<Boolean> getCustomYmlBooleanList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getBooleanList(path);
@@ -284,7 +284,7 @@ public class YamlUtils {
 
     public static List<Double> getCustomYmlDoubleList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getDoubleList(path);
@@ -308,7 +308,7 @@ public class YamlUtils {
 
     public static List<Float> getCustomYmlFloatList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getFloatList(path);
@@ -332,7 +332,7 @@ public class YamlUtils {
 
     public static List<Integer> getCustomYmlIntegerList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getIntegerList(path);
@@ -356,7 +356,7 @@ public class YamlUtils {
 
     public static ItemStack getCustomYmlItemStack(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getItemStack(path);
@@ -380,7 +380,7 @@ public class YamlUtils {
 
     public static Long getCustomYmlLong(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getLong(path);
@@ -404,7 +404,7 @@ public class YamlUtils {
 
     public static List<Long> getCustomYmlLongList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getLongList(path);
@@ -428,7 +428,7 @@ public class YamlUtils {
 
     public static List<Short> getCustomYmlShortList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getShortList(path);
@@ -452,7 +452,7 @@ public class YamlUtils {
 
     public static List<Map<?, ?>> getCustomYmlMapList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getMapList(path);
@@ -476,7 +476,7 @@ public class YamlUtils {
 
     public static OfflinePlayer getCustomYmlOfflinePlayer(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getOfflinePlayer(path);
@@ -500,7 +500,7 @@ public class YamlUtils {
 
     public static List<String> getCustomYmlStringList(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getStringList(path);
@@ -524,7 +524,7 @@ public class YamlUtils {
 
     public static Vector getCustomYmlVector(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getVector(path);
@@ -548,7 +548,7 @@ public class YamlUtils {
 
     public static Location getCustomYmlLocation(String ymlFileName, String path) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getLocation(path);
@@ -572,7 +572,7 @@ public class YamlUtils {
 
     public static Map<String, Object> getCustomYmlAllValues(String ymlFileName, boolean deep) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig.getValues(true);
@@ -597,7 +597,7 @@ public class YamlUtils {
 
     public static void setCustomYml(String ymlFileName, String path, Object toWhat) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             customConfig.set(path, toWhat);
@@ -637,7 +637,7 @@ public class YamlUtils {
 
     public static boolean customYmlExist(String ymlFileName) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             if(customYml.exists() == true) {
                 return true;
             } else {
@@ -665,7 +665,7 @@ public class YamlUtils {
 
     public static void addListValue(String ymlFileName, String path, String whatValue) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             customConfig.getStringList(path).add(whatValue);
@@ -691,7 +691,7 @@ public class YamlUtils {
 
     public static void removeListValue(String ymlFileName, String path, Object whatValue) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             customConfig.getList(path).remove(whatValue);
@@ -704,7 +704,7 @@ public class YamlUtils {
 
     public static void deleteListValue(String ymlFileName, String path, Object whatValue) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + ymlFileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + ymlFileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             customConfig.getStringList(path).remove(whatValue);
@@ -743,7 +743,7 @@ public class YamlUtils {
 
     public static File getCustomYmlFile(String fileName) {
         try {
-            File file = new File(Spigot.get().getDataFolder() + "/" + fileName + ".yml");
+            File file = new File(Spigot.getPlugin().getDataFolder() + "/" + fileName + ".yml");
 
             return file;
         } catch (Exception e) {
@@ -777,7 +777,7 @@ public class YamlUtils {
 
     public static FileConfiguration getCustomYmlFileConfig(String fileName) {
         try {
-            File customYml = new File(Spigot.get().getDataFolder() + "/" + fileName + ".yml");
+            File customYml = new File(Spigot.getPlugin().getDataFolder() + "/" + fileName + ".yml");
             FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customYml);
 
             return customConfig;
@@ -798,7 +798,7 @@ public class YamlUtils {
         try {
             File theDir = null;
             if(usePluginDirectory) {
-                theDir = new File(Spigot.get().getDataFolder() + "/" + directory);
+                theDir = new File(Spigot.getPlugin().getDataFolder() + "/" + directory);
             } else if (!usePluginDirectory){
                 theDir = new File(directory);
             }
@@ -810,7 +810,7 @@ public class YamlUtils {
         } catch (Exception e) {
             Bukkit.getLogger().severe(" ");
             if(usePluginDirectory) {
-                Bukkit.getLogger().severe("Failed to create directory (" + Spigot.get().getDataFolder() + directory + "). Error: " + e.toString());
+                Bukkit.getLogger().severe("Failed to create directory (" + Spigot.getPlugin().getDataFolder() + directory + "). Error: " + e.toString());
             } else if (!usePluginDirectory){
                 Bukkit.getLogger().severe("Failed to create directory (" + directory + "). Error: " + e.toString());
             }
@@ -823,7 +823,7 @@ public class YamlUtils {
         try {
             File theDir = null;
             if(usePluginDirectory) {
-                theDir = new File(Spigot.get().getDataFolder() + "/" + directory);
+                theDir = new File(Spigot.getPlugin().getDataFolder() + "/" + directory);
             } else if (!usePluginDirectory){
                 theDir = new File(directory);
             }
@@ -838,7 +838,7 @@ public class YamlUtils {
             if(sendMsgOnFail) {
                 Bukkit.getLogger().severe(" ");
                 if(usePluginDirectory) {
-                    Bukkit.getLogger().severe("Failed to create directory (" + Spigot.get().getDataFolder() + directory + "). Error: " + e.toString());
+                    Bukkit.getLogger().severe("Failed to create directory (" + Spigot.getPlugin().getDataFolder() + directory + "). Error: " + e.toString());
                 } else if (!usePluginDirectory){
                     Bukkit.getLogger().severe("Failed to create directory (" + directory + "). Error: " + e.toString());
                 }
@@ -865,7 +865,7 @@ public class YamlUtils {
     public static String[] getFilesInPluginDirectory(String directory) {
         try {
             String[] pathnames;
-            File f = new File(Spigot.get().getDataFolder() + "/" + directory);
+            File f = new File(Spigot.getPlugin().getDataFolder() + "/" + directory);
             pathnames = f.list();
             return pathnames;
         } catch (Exception e) {
@@ -878,7 +878,7 @@ public class YamlUtils {
 
     public static void createNewFile(String fileName) {
         try {
-            File f = new File(Spigot.get().getDataFolder() + "/" + fileName);
+            File f = new File(Spigot.getPlugin().getDataFolder() + "/" + fileName);
             f.createNewFile();
         } catch (Exception e) {
             Bukkit.getLogger().severe(" ");
@@ -900,7 +900,7 @@ public class YamlUtils {
 
     public static void deleteFile(String fileName) {
         try {
-            File f = new File(Spigot.get().getDataFolder() + "/" + fileName);
+            File f = new File(Spigot.getPlugin().getDataFolder() + "/" + fileName);
             if(f.exists()) {
                 f.delete();
             }

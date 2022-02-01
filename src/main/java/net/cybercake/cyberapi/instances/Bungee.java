@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Bungee extends Plugin {
 
-    public static Plugin get() {
-        return CyberAPI.bungeePlugin;
+    public static Plugin getPlugin() {
+        return CyberAPI.getAPI().getBungeePlugin();
     }
 
     //
@@ -89,9 +89,9 @@ public class Bungee extends Plugin {
     //
     // CONSOLE LOGGING
     //
-    public static void registerCommand(Command commandExecutor) { ProxyServer.getInstance().getPluginManager().registerCommand(Bungee.get(), commandExecutor); }
-    public static void registerListener(Listener listener) { ProxyServer.getInstance().getPluginManager().registerListener(Bungee.get(), listener); }
-    public static void registerRunnable(Runnable runnable, long period) { ProxyServer.getInstance().getScheduler().schedule(Bungee.get(), runnable, 500, period, TimeUnit.MILLISECONDS); }
+    public static void registerCommand(Command commandExecutor) { ProxyServer.getInstance().getPluginManager().registerCommand(Bungee.getPlugin(), commandExecutor); }
+    public static void registerListener(Listener listener) { ProxyServer.getInstance().getPluginManager().registerListener(Bungee.getPlugin(), listener); }
+    public static void registerRunnable(Runnable runnable, long period) { ProxyServer.getInstance().getScheduler().schedule(Bungee.getPlugin(), runnable, 500, period, TimeUnit.MILLISECONDS); }
 
     //
     // MISC

@@ -1,16 +1,12 @@
 package net.cybercake.cyberapi.chat;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
 import net.cybercake.cyberapi.generalutils.StringUtils;
 import net.cybercake.cyberapi.instances.Bungee;
 import net.cybercake.cyberapi.instances.Spigot;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -19,12 +15,8 @@ import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.util.ChatPaginator;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class UChat {
 
@@ -90,19 +82,19 @@ public class UChat {
     }
 
     public static String getProgressBar(ChatColor used, ChatColor unused, double percentage, String spaceCharacter, int characters) {
-        String progress = UChat.chat("");
+        StringBuilder progress = new StringBuilder(UChat.chat(""));
         double percentageSoFar = 0.0;
         for(double i=0; i<characters; i++) {
             if(percentage > percentageSoFar) {
-                progress = progress + used + spaceCharacter;
+                progress.append(used).append(spaceCharacter);
             }else if(percentage <= percentageSoFar) {
-                progress = progress + unused + spaceCharacter;
+                progress.append(unused).append(spaceCharacter);
             }else{
-                progress = progress + "&8&m" + spaceCharacter;
+                progress.append("&8&m").append(spaceCharacter);
             }
             percentageSoFar = i / characters;
         }
-        return progress;
+        return progress.toString();
     }
 
     //
@@ -212,47 +204,12 @@ public class UChat {
     //
 
     /**
-     * Returns an empty list.
-     * @return the empty list
-     * @deprecated please use {@link UTabComp#emptyList UTabComp's empty list} instead!
-     */
-    @Deprecated
-    public static ArrayList<String> emptyList(){
-        return new ArrayList<>(); }
-
-    /**
-     *
-     * Returns a plural version of a string based on the value fed in
-     * @param message the message you want to convert to plural, include the plural version
-     * @param value the amount of values you have
-     * @return returns the string but in its plural form
-     * @deprecated use {@linkplain StringUtils#pluralize(String, int) StringUtils.pluralize()} instead of this method!
-     */
-    @Deprecated
-    public static String pluralize(String message, int value) {
-        String ret = message.replaceAll("!#", String.valueOf(value));
-        ret = ret.replaceAll("!s", ((value == 1)?"":"s"));        // sword | swords
-        ret = ret.replaceAll("!es", ((value == 1)?"":"es"));      // bus | buses
-        ret = ret.replaceAll("!ies", ((value == 1)?"y":"ies"));   // penny | pennies
-        ret = ret.replaceAll("!oo", ((value == 1)?"oo":"ee"));    // tooth | teeth
-        ret = ret.replaceAll("!an", ((value == 1)?"an":"en"));    // woman | women
-        ret = ret.replaceAll("!us", ((value == 1)?"us":"i"));     // cactus | cacti
-        ret = ret.replaceAll("!is", ((value == 1)?"is":"es"));    // analysis | analyses
-        ret = ret.replaceAll("!o", ((value == 1)?"o":"oes"));     // potato | potatoes
-        ret = ret.replaceAll("!on", ((value == 1)?"a":"on"));     // criteria | criterion
-        ret = ret.replaceAll("!lf", ((value == 1)?"lf":"lves"));  // elf | elves
-        ret = ret.replaceAll("!ia", ((value == 1)?"is":"are"));
-        ret = ret.replaceAll("!ww", ((value == 1)?"was":"were"));
-        return ret;
-    }
-
-    /**
      * Broadcasts a message based on if the plugin type is a fork of bungeecord or fork of
      * spigot. Includes color and logs to console in color as well.
      * @param msg the message you want to broadcast to the entire server/servers
      */
     public static void broadcast(String msg) {
-        switch (CyberAPI.serverType) {
+        switch (CyberAPI.getAPI().getServerType()) {
             case BUNGEE -> {
                 Bungee.getOnlinePlayers().forEach(player -> player.sendMessage(bComponent(msg)));
                 Log.info(chat(msg));

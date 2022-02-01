@@ -35,10 +35,30 @@ public class NumberUtils {
         }
     }
 
+    public static boolean isLong(String string) {
+        try {
+            long integer = Long.parseLong(string);
+            integer = integer + 5L;
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isFloat(String string) {
+        try {
+            float integer = Float.parseFloat(string);
+            integer = integer + 5F;
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static boolean isDouble(String string) {
         try {
             double doub = Double.parseDouble(string);
-            doub = doub + 1;
+            doub = doub + 1D;
             return true;
         } catch (NumberFormatException e) {
             return false;

@@ -120,7 +120,7 @@ public class CyberPlayer {
         DataOutputStream out = new DataOutputStream(b);
         out.writeUTF("Connect");
         out.writeUTF(server);
-        player.sendPluginMessage(Spigot.get(), "BungeeCord", b.toByteArray());
+        player.sendPluginMessage(Spigot.getPlugin(), "BungeeCord", b.toByteArray());
         b.close();
         out.close();
     }
@@ -130,7 +130,7 @@ public class CyberPlayer {
             DataOutputStream out = new DataOutputStream(b);
             out.writeUTF("Connect");
             out.writeUTF(server);
-            player.sendPluginMessage(Spigot.get(), "BungeeCord", b.toByteArray());
+            player.sendPluginMessage(Spigot.getPlugin(), "BungeeCord", b.toByteArray());
             b.close();
             out.close();
         } catch (Exception exception) {

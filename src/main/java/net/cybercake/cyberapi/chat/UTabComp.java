@@ -42,7 +42,7 @@ public class UTabComp {
 
 
         if(Item.mcItems().contains(Item.toKey(arguments))) {
-            return UChat.emptyList();
+            return emptyList;
         }
         ArrayList<String> withoutMinecraftColon = new ArrayList<>();
         withoutMinecraftColon.add("minecraft:");

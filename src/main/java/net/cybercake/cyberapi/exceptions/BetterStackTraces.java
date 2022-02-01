@@ -20,7 +20,7 @@ public class BetterStackTraces {
 
     public static void print(Exception exception) {
         for(String str : get(exception)) {
-            switch (CyberAPI.serverType) {
+            switch (CyberAPI.getAPI().getServerType()) {
                 case SPIGOT -> Bukkit.getLogger().severe(str);
                 case BUNGEE -> ProxyServer.getInstance().getLogger().severe(str);
             }
@@ -29,7 +29,7 @@ public class BetterStackTraces {
 
     public static void print(Level logLevel, Exception exception) {
         for(String str : get(exception)) {
-            switch (CyberAPI.serverType) {
+            switch (CyberAPI.getAPI().getServerType()) {
                 case SPIGOT -> Bukkit.getLogger().log(logLevel, str);
                 case BUNGEE -> ProxyServer.getInstance().getLogger().log(logLevel, str);
             }

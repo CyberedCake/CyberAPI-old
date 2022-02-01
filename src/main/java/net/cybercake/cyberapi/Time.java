@@ -12,42 +12,92 @@ public class Time {
     public static long getUnix() {
         return Instant.now().getEpochSecond();
     }
-    public static String getBetterTimeFromLongs(long largerNumber, long smallerNumber, boolean aFewSeconds) {
 
-        String time = "null";
-        Map<TimeUnit, Long> timeSince = getDateDifference(new Date(smallerNumber), new Date(largerNumber));
+    public final static long ONE_SECOND = 1000;
+    public final static long ONE_MINUTE = ONE_SECOND * 60;
+    public final static long ONE_HOUR = ONE_SECOND * 3600;
+    public final static long ONE_DAY = ONE_SECOND * 86400;
+    public final static long ONE_WEEK = ONE_SECOND * 604800;
+    public final static long ONE_MONTH = ONE_SECOND * 2628000;
+    public final static long ONE_YEAR = ONE_SECOND * 31560000;
 
-        if(Math.round(timeSince.get(TimeUnit.DAYS)) / 365 >= 1) {
-            time = Math.round(timeSince.get(TimeUnit.DAYS)/365) + ((Math.round(timeSince.get(TimeUnit.DAYS)) / 365 == 1) ? " year" : " years");
-        }else if(Math.round(timeSince.get(TimeUnit.DAYS)) / 31 >= 1) {
-            time = Math.round(timeSince.get(TimeUnit.DAYS)/31) + ((Math.round(timeSince.get(TimeUnit.DAYS)) / 31 == 1) ? " month" : " months");
-        }else if(Math.round(timeSince.get(TimeUnit.DAYS)) / 7 >= 1) {
-            time = Math.round(timeSince.get(TimeUnit.DAYS)/7) + ((Math.round(timeSince.get(TimeUnit.DAYS)) / 7 == 1) ? " week" : " weeks");
-        }else if(timeSince.get(TimeUnit.DAYS) != 0) {
-            time = timeSince.get(TimeUnit.DAYS) + ((timeSince.get(TimeUnit.DAYS) == 1) ? " day" : " days");
-        }else if(timeSince.get(TimeUnit.HOURS) != 0) {
-            time = timeSince.get(TimeUnit.HOURS) + ((timeSince.get(TimeUnit.HOURS) == 1) ? " hour" : " hours");
-        }else if(timeSince.get(TimeUnit.MINUTES) >= 5) {
-            time = timeSince.get(TimeUnit.MINUTES) + ((timeSince.get(TimeUnit.MINUTES) == 1) ? " minute" : " minutes");
-        }
+    public static String toBetterDurationDisplay(long duration) {
+        return toBetterDurationDisplay(duration, true);
+    }
 
-        if(timeSince.get(TimeUnit.DAYS) < 1 && timeSince.get(TimeUnit.HOURS) < 1) {
-            if(aFewSeconds) {
-                if(timeSince.get(TimeUnit.MINUTES) < 5 && timeSince.get(TimeUnit.MINUTES) > 0) {
-                    time = "a few minutes";
-                }else if(timeSince.get(TimeUnit.MINUTES) < 1) {
-                    time = "a few seconds";
-                }
-            }else{
-                if(timeSince.get(TimeUnit.MINUTES) > 0) {
-                    time = timeSince.get(TimeUnit.MINUTES) + ((timeSince.get(TimeUnit.MINUTES) == 1) ? " minute" : " minutes");
-                }else if(timeSince.get(TimeUnit.SECONDS) >= 0) {
-                    time = timeSince.get(TimeUnit.SECONDS) + ((timeSince.get(TimeUnit.SECONDS) == 1) ? " second" : " seconds");
-                }
+    public static String toBetterDurationDisplay(long biggerNumber, long smallerNumber) {
+        return toBetterDurationDisplay(biggerNumber, smallerNumber, true);
+    }
+
+    public static String toBetterDurationDisplay(long biggerNumber, long smallerNumber, boolean showAll) {
+        return toBetterDurationDisplay(biggerNumber-smallerNumber, showAll);
+    }
+
+    public static String toBetterDurationDisplay(long duration, boolean showAll) {
+        StringBuilder durationBuilder = new StringBuilder();
+        duration = duration*1000L;
+        long temp;
+        if (duration >= ONE_SECOND) {
+            temp = duration / ONE_YEAR;
+            if (temp > 0) {
+                duration -= temp * ONE_YEAR;
+                if(!showAll) return temp + " year" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" year").append(temp != 1 ? "s" : "")
+                        .append(duration >= ONE_MINUTE ? ", " : "");
             }
-        }
 
-        return time;
+            temp = duration / ONE_MONTH;
+            if (temp > 0) {
+                duration -= temp * ONE_MONTH;
+                if(!showAll) return temp + " month" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" month").append(temp != 1 ? "s" : "")
+                        .append(duration >= ONE_MINUTE ? ", " : "");
+            }
+
+            temp = duration / ONE_WEEK;
+            if (temp > 0) {
+                duration -= temp * ONE_WEEK;
+                if(!showAll) return temp + " week" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" week").append(temp != 1 ? "s" : "")
+                        .append(duration >= ONE_MINUTE ? ", " : "");
+            }
+
+            temp = duration / ONE_DAY;
+            if (temp > 0) {
+                duration -= temp * ONE_DAY;
+                if(!showAll) return temp + " day" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" day").append(temp != 1 ? "s" : "")
+                        .append(duration >= ONE_MINUTE ? ", " : "");
+            }
+
+            temp = duration / ONE_HOUR;
+            if (temp > 0) {
+                duration -= temp * ONE_HOUR;
+                if(!showAll) return temp + " hour" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" hour").append(temp != 1 ? "s" : "")
+                        .append(duration >= ONE_MINUTE ? ", " : "");
+            }
+
+            temp = duration / ONE_MINUTE;
+            if (temp > 0) {
+                duration -= temp * ONE_MINUTE;
+                if(!showAll) return temp + " minute" + (temp != 1 ? "s" : "");
+                durationBuilder.append(temp).append(" minute").append(temp != 1 ? "s" : "");
+            }
+
+            if (!durationBuilder.toString().equals("") && duration >= ONE_SECOND) {
+                durationBuilder.append(" and ");
+            }
+
+            temp = duration / ONE_SECOND;
+            if (temp > 0) {
+                durationBuilder.append(temp).append(" second").append(temp != 1 ? "s" : "");
+                if(!showAll) return temp + " second" + (temp != 1 ? "s" : "");
+            }
+            return durationBuilder.toString();
+        } else {
+            return "0 seconds";
+        }
     }
 
     public static Map<TimeUnit,Long> getDateDifference(Date date1, Date date2) {
@@ -77,7 +127,7 @@ public class Time {
     }
 
     public static String getFormattedDate(String pattern) {
-        Date dNow = new Date( );
+        Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat(pattern);
         return ft.format(dNow);
     }

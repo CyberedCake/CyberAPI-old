@@ -1,4 +1,4 @@
-package net.cybercake.cyberapi;
+package net.cybercake.cyberapi.generalutils;
 
 import java.io.File;
 
