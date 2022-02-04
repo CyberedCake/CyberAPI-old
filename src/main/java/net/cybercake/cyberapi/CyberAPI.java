@@ -185,6 +185,13 @@ public class CyberAPI  {
         }
     }
 
+    public void logAPIError(APILevel apiLevel, Exception exception) {
+        logAPI(apiLevel, "  " + exception.toString());
+        for(StackTraceElement stackTraceElement : exception.getStackTrace()) {
+            logAPI(apiLevel, "    " + stackTraceElement.toString());
+        }
+    }
+
     public String getPluginName() {
         switch(getServerType()) {
             case SPIGOT -> {

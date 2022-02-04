@@ -2,8 +2,11 @@ package net.cybercake.cyberapi;
 
 import net.cybercake.cyberapi.generalutils.NumberUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -130,6 +133,24 @@ public class Time {
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat(pattern);
         return ft.format(dNow);
+    }
+
+    public static String getFormattedDate(String pattern, String timeOffset) {
+        ZoneOffset zoneOffset = ZoneOffset.of(timeOffset);
+        OffsetDateTime offset = OffsetDateTime.now(zoneOffset);
+        Date date = new Date(offset.toInstant().toEpochMilli());
+        SimpleDateFormat ft = new SimpleDateFormat(pattern);
+        return ft.format(date);
+    }
+
+    public static String getFormattedDate(String pattern, int timeOffset) {
+        String date;
+        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        time.add(Calendar.HOUR_OF_DAY,timeOffset);
+        DateFormat formatter = new SimpleDateFormat(pattern);
+        formatter.setCalendar(time);
+        date = formatter.format(time.getTime());
+        return date;
     }
 
     public static String getFormattedDateUnix(long unix, String pattern) {
