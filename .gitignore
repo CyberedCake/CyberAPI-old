@@ -113,6 +113,3 @@ settings.xml
 
 # Common working directory
 run/
-
-# Cyber Net
-src/main/java/net/cybercake/cyberapi/cybernet/
