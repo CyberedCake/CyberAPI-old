@@ -115,5 +115,4 @@ settings.xml
 run/
 
 # Cyber Net
-src/main/java/net/cybercake/cyberapi/CyberNetOnly.java
-src/main/java/net/cybercake/cyberapi/CyberNetOnly.class
+src/main/java/net/cybercake/cyberapi/cybernet/
