@@ -1,5 +1,6 @@
 # CyberAPI
-CyberAPI is used for some of Cyber's plugins, including CyberNet ones!
+CyberAPI is used for some of Cyber's plugins, including CyberNet ones! It has additional features that Spigot and 
+Bungeecord do not have.
 
 # How to use
 
@@ -34,7 +35,7 @@ Basically, you can add CyberAPI by using...
 <dependency>
     <groupId>com.github.CyberedCake</groupId>
     <artifactId>CyberAPI</artifactId>
-    <version>v2.0.0</version>
+    <version>v2.1.0</version>
 </dependency>
    ```
 </details>
@@ -53,7 +54,7 @@ repositories {
     
   ```gradle
 dependencies {
-	implementation 'com.github.CyberedCake:CyberAPI:v2.0.0'
+	implementation 'com.github.CyberedCake:CyberAPI:v2.1.0'
 }
    ```
 </details>
@@ -71,6 +72,9 @@ public class Main extends Bungee { // if your plugin is bungee or a fork of bung
 		
 		CyberAPI.initSpigot(this); // if your plugin is spigot or a fork of spigot (paper)
 		CyberAPI.initBungee(this); // if your plugin is bungee or a fork of bungee (waterfall)
+      
+        CyberAPI.silenceLogs(true); // optional, silences info and warning messages (updates, init message, etc.)
+      
 	}
 
 }

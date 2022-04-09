@@ -5,11 +5,9 @@ import net.cybercake.cyberapi.instances.Spigot;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,14 +26,14 @@ public class CyberAPI  {
     private static JavaPlugin spigotPlugin;
 
     private static ServerType serverType;
+    private static File dataFolder;
 
-    private boolean isCyberNet = false;
-
+    private static boolean isCyberNet = false;
     private static boolean prefixInLogs = true;
+    private static boolean silence = false;
 
-    private static boolean showVersionCheck = true;
-    private String latestVersion = "unknown";
-    private int latestProtocol = 0;
+    private static String latestVersion = "unknown";
+    private static int latestProtocol = 0;
 
     public void sendStartupMessage() {
         switch(serverType) {
@@ -51,9 +49,9 @@ public class CyberAPI  {
             case SPIGOT -> typeFormatted = "&aSPIGOT";
             case BUNGEE -> typeFormatted = "&9BUNGEE";
         }
-        String msg = "&d" + getAPI().getPrefix(false) + " &rThe plugin &c" + pluginName + " &ris using CyberAPI version &e" + getAPI().getVersion() + " &6(" + getAPI().getProtocol() + ")&r! The plugin's type is " + typeFormatted + "&r, as marked by the plugin developer.";
+        String msg = "&rThe plugin &c" + pluginName + " &ris using CyberAPI version &e" + getAPI().getVersion() + " &6(" + getAPI().getProtocol() + ")&r! The plugin's type is " + typeFormatted + "&r, as marked by the plugin developer.";
 
-        Log.info(msg);
+        CyberAPI.getAPI().logAPI(APILevel.INFO, msg);
         getAPI().versionCheck();
     }
 
@@ -61,8 +59,8 @@ public class CyberAPI  {
         initSpigot(plugin, true);
     }
 
-    public static void initSpigot(JavaPlugin plugin, boolean sendPrefixInLogs) {
-        CyberAPI.serverType = CyberAPI.ServerType.SPIGOT;
+    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs) {
+        CyberAPI.getAPI().setServerType(CyberAPI.ServerType.SPIGOT);
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         spigotPlugin = plugin;
         prefixInLogs = sendPrefixInLogs;
@@ -73,8 +71,8 @@ public class CyberAPI  {
         initBungee(plugin, plugin.getDescription().getName(), true);
     }
 
-    public static void initBungee(Plugin plugin, String prefix, boolean sendPrefixInLogs) {
-        CyberAPI.serverType = ServerType.BUNGEE;
+    public static void initBungee(@NotNull Plugin plugin, String prefix, boolean sendPrefixInLogs) {
+        CyberAPI.getAPI().setServerType(CyberAPI.ServerType.BUNGEE);
         bungeePlugin = plugin;
         bungeePrefix = prefix;
         prefixInLogs = sendPrefixInLogs;
@@ -83,13 +81,16 @@ public class CyberAPI  {
 
     /**
      * Show version checking and how far behind the CyberAPI is. You must put this before the init though!
-     * @param showVersionCheck
      */
-    public static void showVersionCheck(boolean showVersionCheck) {
-        CyberAPI.showVersionCheck = showVersionCheck;
+    public static void silenceLogs(boolean silenceLogs) {
+        CyberAPI.silence = silenceLogs;
     }
 
+
+
     private CyberAPI() {}
+
+
 
     /**
      * Get the API instance
@@ -112,6 +113,8 @@ public class CyberAPI  {
     public ServerType getServerType() {
         return serverType;
     }
+
+    private void setServerType(ServerType serverType) { CyberAPI.serverType = serverType; }
 
     /**
      * Prints [CyberAPI Error] if it's errored and [CyberAPI] if it's not errored (space after bracket not included!)
@@ -177,6 +180,12 @@ public class CyberAPI  {
     }
 
     public void logAPI(APILevel apiLevel, String msg) {
+        if(silence) return;
+
+        switch(getServerType()) {
+            case BUNGEE -> msg = msg.replace("{plugin}", Bungee.getPlugin().getDescription().getName());
+            case SPIGOT -> msg = msg.replace("{plugin}", Spigot.getPlugin().getDescription().getName());
+        }
         switch(apiLevel) {
             case INFO -> Log.info("&d" + getAPI().getPrefix() + " &r" + msg);
             case WARN -> Log.warn("&d" + getAPI().getPrefix() + " &e" + msg);
@@ -207,17 +216,8 @@ public class CyberAPI  {
     public boolean showPrefixInLogs() {
         return prefixInLogs;
     }
-
-    public Plugin getBungeePlugin() {
-        return bungeePlugin;
-    }
-
-    public JavaPlugin getSpigotPlugin() {
-        return spigotPlugin;
-    }
-
     public void versionCheck() {
-        if(!showVersionCheck) return;
+        if(!silence) return;
 
         try {
             URL url = new URL("https://raw.githubusercontent.com/CyberedCake/CyberAPI/main/src/main/resources/version.txt");
@@ -243,25 +243,46 @@ public class CyberAPI  {
             }
         }
     }
+    public Plugin getBungeePlugin() {
+        return bungeePlugin;
+    }
+
+    public JavaPlugin getSpigotPlugin() {
+        return spigotPlugin;
+    }
+
+
 
     public String getDownloadLink() {
         return "https://github.com/CyberedCake/CyberAPI/releases/latest";
     }
 
+    public File getDataFolder() { return dataFolder; }
+
     /**
      * This basically has no effect on normal users. This is a CyberNet-only feature and basically provides you with nothing other than a few methods that aren't even useful
      * if your plugin does not run on CyberNet!
      */
-    public void setCyberNet(JavaPlugin plugin) {
-        if(plugin.getDescription().getName().contains("CyberNet")) isCyberNet = true;
+    public void setCyberNet(JavaPlugin plugin, File file) {
+        if(plugin.getDescription().getName().contains("CyberNet")) {
+            CyberAPI.isCyberNet = true;
+            CyberAPI.dataFolder = file;
+
+            logAPI(APILevel.INFO, "&aCyberAPI is running on a CyberNet server!");
+        }
     }
 
     /**
      * This basically has no effect on normal users. This is a CyberNet-only feature and basically provides you with nothing other than a few methods that aren't even useful
      * if your plugin does not run on CyberNet!
      */
-    public void setCyberNet(Plugin plugin) {
-        if(plugin.getDescription().getName().contains("CyberNet")) isCyberNet = true;
+    public void setCyberNet(Plugin plugin, File file) {
+        if(plugin.getDescription().getName().contains("CyberNet")) {
+            CyberAPI.isCyberNet = true;
+            CyberAPI.dataFolder = file;
+
+            logAPI(APILevel.INFO, "&aCyberAPI is running on a CyberNet server!");
+        }
     }
 
     /**

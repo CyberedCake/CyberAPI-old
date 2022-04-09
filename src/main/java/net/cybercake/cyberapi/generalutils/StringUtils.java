@@ -1,7 +1,6 @@
 package net.cybercake.cyberapi.generalutils;
 
 import net.cybercake.cyberapi.chat.UChat;
-import net.md_5.bungee.api.ChatColor;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

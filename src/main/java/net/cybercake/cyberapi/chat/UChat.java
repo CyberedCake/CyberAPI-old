@@ -2,7 +2,6 @@ package net.cybercake.cyberapi.chat;
 
 import net.cybercake.cyberapi.CyberAPI;
 import net.cybercake.cyberapi.Log;
-import net.cybercake.cyberapi.generalutils.StringUtils;
 import net.cybercake.cyberapi.instances.Bungee;
 import net.cybercake.cyberapi.instances.Spigot;
 import net.kyori.adventure.text.Component;

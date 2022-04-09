@@ -1,7 +1,7 @@
 package net.cybercake.cyberapi.player;
 
+import net.cybercake.cyberapi.chat.CenteredMessage;
 import net.cybercake.cyberapi.chat.UChat;
-import net.cybercake.cyberapi.chat.DefaultFontInfo;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.luckperms.api.model.user.User;
@@ -30,44 +30,7 @@ public class CyberBungeePlayer {
     // COLOR, COMPONENTS, AND MISC CHAT
     //
     public void sendColored(String msg) { player.sendMessage(new TextComponent(UChat.chat(msg))); }
-    public void sendCenteredMessage(String message) {
-        if (message == null || message.equals("")) this.getPlayer().sendMessage(UChat.bComponent(""));
-        int CENTER_PX = 154;
-
-        message = UChat.chat(message);
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for (char c : message.toCharArray()) {
-            if (c == '§') {
-                previousCode = true;
-                continue;
-            } else if (previousCode) {
-                previousCode = false;
-                if (c == 'l' || c == 'L') {
-                    isBold = true;
-                    continue;
-                } else isBold = false;
-            } else {
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-        this.getPlayer().sendMessage(UChat.bComponent(sb.toString() + message));
-    }
+    public void sendCenteredMessage(String message) { CenteredMessage.bungeeSend(player, message); }
 
     //
     // LUCK PERMS UTILITIES

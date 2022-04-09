@@ -1,9 +1,8 @@
 package net.cybercake.cyberapi.player;
 
-import com.sun.tools.javac.Main;
-import net.cybercake.cyberapi.Log;
+import net.cybercake.cyberapi.CyberAPI;
+import net.cybercake.cyberapi.chat.CenteredMessage;
 import net.cybercake.cyberapi.chat.UChat;
-import net.cybercake.cyberapi.chat.DefaultFontInfo;
 import net.cybercake.cyberapi.exceptions.BetterStackTraces;
 import net.cybercake.cyberapi.instances.Spigot;
 import net.luckperms.api.LuckPermsProvider;
@@ -18,9 +17,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.UUID;
 
 public class CyberPlayer {
 
@@ -31,6 +34,7 @@ public class CyberPlayer {
     }
 
     public Player getPlayer() { return this.player; }
+    public UUID getUniqueId() { return this.player.getUniqueId(); }
 
     public static CyberPlayer getCyberPlayer(Player player) {
         return new CyberPlayer(player);
@@ -41,44 +45,7 @@ public class CyberPlayer {
     //
     public void sendColored(String msg) { player.getPlayer().sendMessage(UChat.chat(msg)); }
     public void sendActionBar(@NotNull String msg) { player.sendActionBar(UChat.component(msg)); }
-    public void sendCenteredMessage(String message) {
-        if (message == null || message.equals("")) this.getPlayer().sendMessage(UChat.component(""));
-        int CENTER_PX = 154;
-
-        message = UChat.chat(message);
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for (char c : message.toCharArray()) {
-            if (c == '§') {
-                previousCode = true;
-                continue;
-            } else if (previousCode) {
-                previousCode = false;
-                if (c == 'l' || c == 'L') {
-                    isBold = true;
-                    continue;
-                } else isBold = false;
-            } else {
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-        this.getPlayer().sendMessage(UChat.component(sb.toString() + message));
-    }
+    public void sendCenteredMessage(String message) { CenteredMessage.spigotSend(player, message); }
 
     //
     // LUCK PERMS UTILITIES
@@ -174,6 +141,67 @@ public class CyberPlayer {
     //
     public void playSound(Sound sound, float volume, float pitch) {
         player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    private final int DEFAULT_IMAGE_SCALE = 8;
+    private final boolean DEFAULT_HELMET = false;
+    private final Character DEFAULT_CHARACTER = '⬛';
+    private final String[] DEFAULT_LINES = new String[]{};
+
+    public String getUserHead() throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, DEFAULT_HELMET, DEFAULT_CHARACTER, DEFAULT_LINES); }
+    public String getUserHead(int imageScale, boolean helmet) throws IOException { return getUserHead(imageScale, helmet, DEFAULT_CHARACTER, DEFAULT_LINES); }
+    public String getUserHead(int imageScale, boolean helmet, String[] lines) throws IOException { return getUserHead(imageScale, helmet, DEFAULT_CHARACTER, lines); }
+    public String getUserHead(int imageScale) throws IOException { return getUserHead(imageScale, DEFAULT_HELMET, DEFAULT_CHARACTER, DEFAULT_LINES); }
+    public String getUserHead(int imageScale, Character character) throws IOException { return getUserHead(imageScale, DEFAULT_HELMET, character, DEFAULT_LINES); }
+    public String getUserHead(int imageScale, Character character, String[] lines) throws IOException { return getUserHead(imageScale, DEFAULT_HELMET, character, lines); }
+    public String getUserHead(int imageScale, String[] lines) throws IOException { return getUserHead(imageScale, DEFAULT_HELMET, DEFAULT_CHARACTER, lines); }
+    public String getUserHead(boolean helmet, Character character) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, helmet, character, DEFAULT_LINES); }
+    public String getUserHead(boolean helmet, Character character, String[] lines) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, helmet, character, lines); }
+    public String getUserHead(boolean helmet) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, helmet, DEFAULT_CHARACTER, DEFAULT_LINES); }
+    public String getUserHEad(boolean helmet, String[] lines) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, helmet, DEFAULT_CHARACTER, lines); }
+    public String getUserHead(Character character) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, DEFAULT_HELMET, character, DEFAULT_LINES); }
+    public String getUserHead(Character character, String[] lines) throws IOException { return getUserHead(DEFAULT_IMAGE_SCALE, DEFAULT_HELMET, character, lines); }
+    public String getUserHead(int imageScale, boolean helmet, Character character, String[] lines) throws IOException {
+
+        UUID uuid = player.getPlayer().getUniqueId();
+        String trimmedUUID = uuid.toString().replace("-", "");
+
+        URL url = new URL("https://minotar.net/avatar/" + trimmedUUID + "/" + imageScale + ".png");
+        if(helmet) {
+            url = new URL("https://minotar.net/helm/" + trimmedUUID + "/" + imageScale + ".png");
+        }
+
+        BufferedImage img = ImageIO.read(url);
+
+        StringBuilder columnBuilder = new StringBuilder();
+        for(int row=0; row<img.getHeight(); row++) {
+            StringBuilder rowBuilder = new StringBuilder();
+            for (int column=0; column<img.getWidth(); column++) {
+                String hex = "#" + Integer.toHexString(img.getRGB(column, row)).substring(2);
+                rowBuilder.append(net.md_5.bungee.api.ChatColor.of(hex)).append(character);
+            }
+            columnBuilder.append(rowBuilder).append("\n");
+        }
+        return columnBuilder.toString();
+    }
+
+    public void printUserHead() { printUserHead(player); }
+    public void printUserHead(Player printTo) {
+        try {
+            printTo.sendMessage(getUserHead());
+        } catch (IOException ioException) {
+            CyberAPI.getAPI().logAPI(CyberAPI.APILevel.ERROR, "An error occurred whilst printing the user head of " + player.getName() + " to " + printTo.getName());
+            CyberAPI.getAPI().logAPIError(CyberAPI.APILevel.ERROR, ioException);
+        }
+    }
+    public void printUserHead(String[] lines) { printUserHead(player, lines); }
+    public void printUserHead(Player printTo, String[] lines) {
+        try {
+            printTo.sendMessage(getUserHead());
+        } catch (IOException ioException) {
+            CyberAPI.getAPI().logAPI(CyberAPI.APILevel.ERROR, "An error occurred whilst printing the user head of " + player.getName() + " to " + printTo.getName());
+            CyberAPI.getAPI().logAPIError(CyberAPI.APILevel.ERROR, ioException);
+        }
     }
 
 
