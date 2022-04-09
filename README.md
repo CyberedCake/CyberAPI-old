@@ -73,7 +73,7 @@ public class Main extends Bungee { // if your plugin is bungee or a fork of bung
 		CyberAPI.initSpigot(this); // if your plugin is spigot or a fork of spigot (paper)
 		CyberAPI.initBungee(this); // if your plugin is bungee or a fork of bungee (waterfall)
       
-        CyberAPI.silenceLogs(true); // optional, silences info and warning messages (updates, init message, etc.)
+                CyberAPI.silenceLogs(true); // optional, silences info and warning messages (updates, init message, etc)
       
 	}
 
