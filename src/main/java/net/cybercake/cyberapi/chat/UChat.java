@@ -12,10 +12,13 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.util.ChatPaginator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UChat {
 
@@ -206,19 +209,34 @@ public class UChat {
      * Broadcasts a message based on if the plugin type is a fork of bungeecord or fork of
      * spigot. Includes color and logs to console in color as well.
      * @param msg the message you want to broadcast to the entire server/servers
+     * @param permission The permission required to send to the player
      */
-    public static void broadcast(String msg) {
+    public static void broadcast(String msg, String permission) {
+        boolean noPermissionSet = !permission.strip().toLowerCase(Locale.ROOT).equalsIgnoreCase("");
         switch (CyberAPI.getAPI().getServerType()) {
             case BUNGEE -> {
-                Bungee.getOnlinePlayers().forEach(player -> player.sendMessage(bComponent(msg)));
+                for(ProxiedPlayer player : Bungee.getOnlinePlayers()) {
+                    if(noPermissionSet && player.hasPermission(permission)) player.sendMessage(bComponent(msg));
+                }
                 Log.info(chat(msg));
             }
             case SPIGOT -> {
-                Spigot.getOnlinePlayers().forEach(player -> player.sendMessage(component(msg)));
+                for(Player player : Spigot.getOnlinePlayers()) {
+                    if(noPermissionSet && player.hasPermission(permission)) player.sendMessage(component(msg));
+                }
                 Log.info(chat(msg));
             }
             default -> System.out.println("Couldn't determine server type!");
         }
+    }
+
+    /**
+     * Broadcasts a message based on if the plugin type is a fork of bungeecord or fork of
+     * spigot. Includes color and logs to console in color as well.
+     * @param msg the message you want to broadcast to the entire server/servers
+     */
+    public static void broadcast(String msg) {
+        broadcast(msg, "");
     }
 
 
