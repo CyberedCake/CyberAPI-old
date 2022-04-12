@@ -205,6 +205,20 @@ public class UChat {
     // MISC
     //
 
+    public static String clearChat() { return clearChat(999); }
+
+    public static String clearChat(int loopAmount) {
+        return " \n".repeat(Math.max(0, loopAmount));
+    }
+
+    public static void clearChatSpigot(Player player) {
+        player.sendMessage(clearChat());
+    }
+
+    public static void clearChatBungee(ProxiedPlayer player) {
+        player.sendMessage(bComponent(clearChat()));
+    }
+
     /**
      * Broadcasts a message based on if the plugin type is a fork of bungeecord or fork of
      * spigot. Includes color and logs to console in color as well.
@@ -216,13 +230,13 @@ public class UChat {
         switch (CyberAPI.getAPI().getServerType()) {
             case BUNGEE -> {
                 for(ProxiedPlayer player : Bungee.getOnlinePlayers()) {
-                    if(noPermissionSet && player.hasPermission(permission)) player.sendMessage(bComponent(msg));
+                    if(noPermissionSet || player.hasPermission(permission)) player.sendMessage(bComponent(msg));
                 }
                 Log.info(chat(msg));
             }
             case SPIGOT -> {
                 for(Player player : Spigot.getOnlinePlayers()) {
-                    if(noPermissionSet && player.hasPermission(permission)) player.sendMessage(component(msg));
+                    if(noPermissionSet || player.hasPermission(permission)) player.sendMessage(chat(msg));
                 }
                 Log.info(chat(msg));
             }
