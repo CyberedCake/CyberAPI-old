@@ -65,11 +65,11 @@ public class CyberPlayer {
         int ping = player.getPing();
         if(ping == 0) {
             return ChatColor.DARK_GRAY + "Loading...";
-        }else if(ping >= 1 || ping <= 99) {
+        }else if(ping >= 1 && ping <= 99) {
             return ChatColor.GREEN + String.valueOf(ping) + "ms";
-        }else if(ping >= 100 || ping <= 199) {
+        }else if(ping >= 100 && ping <= 199) {
             return ChatColor.YELLOW + String.valueOf(ping) + "ms";
-        }else if(ping >= 200 || ping <= 359) {
+        }else if(ping >= 200 && ping <= 359) {
             return ChatColor.RED + String.valueOf(ping) + "ms";
         }else if(ping >= 360) {
             return ChatColor.DARK_RED + String.valueOf(ping) + "ms";
