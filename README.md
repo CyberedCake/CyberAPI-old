@@ -35,7 +35,7 @@ Basically, you can add CyberAPI by using...
 <dependency>
     <groupId>com.github.CyberedCake</groupId>
     <artifactId>CyberAPI</artifactId>
-    <version>v2.1.0</version>
+    <version>v2.1.5</version>
 </dependency>
    ```
 </details>
@@ -54,7 +54,7 @@ repositories {
     
   ```gradle
 dependencies {
-	implementation 'com.github.CyberedCake:CyberAPI:v2.1.0'
+	compileOnly 'com.github.CyberedCake:CyberAPI:v2.1.5'
 }
    ```
 </details>
