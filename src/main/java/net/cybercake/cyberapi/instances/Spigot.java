@@ -44,18 +44,12 @@ public class Spigot extends JavaPlugin {
     //
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
         try {
-            player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle), Title.Times.of(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(stay/20), Duration.ofSeconds(fadeOut/20))));
+            player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle), Title.Times.times(Duration.ofMillis(fadeIn* 50L), Duration.ofMillis(stay* 50L), Duration.ofMillis(fadeOut* 50L))));
         } catch (Exception exception) {
             player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
         }
     }
-    public static void sendTitle(Player player, String title, String subtitle) {
-        try {
-            player.showTitle(Title.title(UChat.component(title), UChat.component(subtitle)));
-        } catch (Exception exception) {
-            player.sendTitle(title, subtitle);
-        }
-    }
+    public static void sendTitle(Player player, String title, String subtitle) { sendTitle(player, title, subtitle, 20, 100, 20); }
 
     public static ArrayList<Player> getOnlinePlayers() {
         if(getPlugin() == null) return new ArrayList<>();

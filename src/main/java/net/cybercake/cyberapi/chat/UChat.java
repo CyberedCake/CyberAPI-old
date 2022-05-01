@@ -79,6 +79,20 @@ public class UChat {
             return seperators;
         }
     }
+    public static String getSeperator(org.bukkit.ChatColor color) { return getSeperator(color, 80); }
+    public static String getSeperator(org.bukkit.ChatColor color, int characters) {
+        if(characters <= 0) {
+            return null;
+        } else if(characters >= 600) {
+            return null;
+        } else {
+            String seperators = "";
+            for(int i=0; i<characters; i++) {
+                seperators = UChat.chat(seperators + color + "&m ");
+            }
+            return seperators;
+        }
+    }
     public static String getProgressBar(ChatColor used, ChatColor unused, double percentage, String spaceCharacter) {
         return getProgressBar(used, unused, percentage, spaceCharacter, 30);
     }
@@ -226,7 +240,7 @@ public class UChat {
      * @param permission The permission required to send to the player
      */
     public static void broadcast(String msg, String permission) {
-        boolean noPermissionSet = !permission.strip().toLowerCase(Locale.ROOT).equalsIgnoreCase("");
+        boolean noPermissionSet = permission.strip().toLowerCase(Locale.ROOT).equalsIgnoreCase("");
         switch (CyberAPI.getAPI().getServerType()) {
             case BUNGEE -> {
                 for(ProxiedPlayer player : Bungee.getOnlinePlayers()) {
