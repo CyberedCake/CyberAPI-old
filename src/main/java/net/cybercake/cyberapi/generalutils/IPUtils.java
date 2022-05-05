@@ -223,7 +223,7 @@ public class IPUtils {
             CyberAPI.getAPI().logAPI(CyberAPI.APILevel.ERROR, apiKeyError.replace("${plugin}", CyberAPI.getAPI().getPluginName())); return null;
         }
 
-        JSONObject json = null;
+        JSONObject json;
         String countryCode = "unknown";
         try {
             if (ipStorage.containsKey(ip)) {

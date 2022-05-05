@@ -159,6 +159,17 @@ public class Time {
         return ft.format(time);
     }
 
+    public static String getFormattedDateUnix(long unix, String pattern, int timeOffset) {
+        String date;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.add(Calendar.HOUR_OF_DAY, timeOffset);
+        DateFormat formatter = new SimpleDateFormat(pattern);
+        formatter.setCalendar(calendar);
+        calendar.getTime().setTime(unix*1000L);
+        date = formatter.format(calendar.getTime());
+        return date;
+    }
+
     public static String formatTime(long number) {
 
         int SECOND = 1000;        // no. of ms in a second
