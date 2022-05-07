@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -160,14 +161,11 @@ public class Time {
     }
 
     public static String getFormattedDateUnix(long unix, String pattern, int timeOffset) {
-        String date;
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.add(Calendar.HOUR_OF_DAY, timeOffset);
-        DateFormat formatter = new SimpleDateFormat(pattern);
-        formatter.setCalendar(calendar);
-        calendar.getTime().setTime(unix*1000L);
-        date = formatter.format(calendar.getTime());
-        return date;
+        Date time = new Date(Instant.ofEpochMilli(unix*1000L)
+                .atZone(ZoneId.of("GMT" + (timeOffset > -1 ? "+" + timeOffset : timeOffset)))
+                .toEpochSecond()*1000L);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(time);
     }
 
     public static String formatTime(long number) {
