@@ -6,7 +6,7 @@
 
     <groupId>net.cybercake.cyberapi</groupId>
     <artifactId>CyberAPI</artifactId>
-    <version>2.1.7</version>
+    <version>2.1.9</version>
     <packaging>jar</packaging>
 
     <name>CyberAPI</name>

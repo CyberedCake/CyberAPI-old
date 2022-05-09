@@ -1,5 +1,7 @@
 package net.cybercake.cyberapi.generalutils;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Random;
 
@@ -101,9 +103,24 @@ public class NumberUtils {
         return rand;
     }
 
+    /**
+     * Please do not use this method!
+     * @deprecated please use {@link NumberUtils#formatDecimal(double, int) NumberUtils::formatDecimal} instead!
+     */
+    @Deprecated(forRemoval = true)
     public static double round(double value, int places) {
         double scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
+    }
+
+    public static String formatDecimal(double value, int places) {
+        return formatDecimal(value, places, RoundingMode.HALF_EVEN);
+    }
+
+    public static String formatDecimal(double value, int places, RoundingMode roundingMode) {
+        DecimalFormat decimalFormat = new DecimalFormat("0." + "#".repeat(Math.max(0, places)));
+        decimalFormat.setRoundingMode(roundingMode);
+        return decimalFormat.format(value);
     }
 
 }

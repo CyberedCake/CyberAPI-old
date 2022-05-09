@@ -155,15 +155,11 @@ public class Time {
     }
 
     public static String getFormattedDateUnix(long unix, String pattern) {
-        Date time = new Date(unix*1000L);
-        SimpleDateFormat ft = new SimpleDateFormat(pattern);
-        return ft.format(time);
+        return getFormattedDateUnix(unix, pattern, 0);
     }
 
     public static String getFormattedDateUnix(long unix, String pattern, int timeOffset) {
-        Date time = new Date(Instant.ofEpochMilli(unix*1000L)
-                .atZone(ZoneId.of("GMT" + (timeOffset > -1 ? "+" + timeOffset : timeOffset)))
-                .toEpochSecond()*1000L);
+        Date time = new Date((unix*1000L)+(timeOffset*3600L*1000L));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(time);
     }
