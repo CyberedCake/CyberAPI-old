@@ -30,7 +30,8 @@ public class CyberAPI  {
 
     private static boolean isCyberNet = false;
     private static boolean prefixInLogs = true;
-    private static boolean silence = false;
+
+    private static Boolean silence = null;
 
     private static String latestVersion = "unknown";
     private static int latestProtocol = 0;
@@ -56,17 +57,15 @@ public class CyberAPI  {
     }
 
     public static void initSpigot(@NotNull JavaPlugin plugin) {
-        initSpigot(plugin, true, false);
+        initSpigot(plugin, true);
     }
 
-    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs) { initSpigot(plugin, sendPrefixInLogs, false); }
-
-    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs, boolean silenceLogs) {
+    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs) {
         CyberAPI.getAPI().setServerType(CyberAPI.ServerType.SPIGOT);
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         spigotPlugin = plugin;
         prefixInLogs = sendPrefixInLogs;
-        silenceLogs(silenceLogs);
+        if(silence == null) silence = false;
         sendStartupMessage(plugin.getDescription().getName());
     }
 
@@ -83,7 +82,7 @@ public class CyberAPI  {
         bungeePlugin = plugin;
         bungeePrefix = prefix;
         prefixInLogs = sendPrefixInLogs;
-        silenceLogs(silenceLogs);
+        if(silence == null) silence = false;
         sendStartupMessage(plugin.getDescription().getName());
     }
 
