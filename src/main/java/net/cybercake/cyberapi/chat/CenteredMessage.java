@@ -87,7 +87,7 @@ public class CenteredMessage {
     }
 
     public enum TextType {
-        CHAT(80),
+        CHAT(74),
         MOTD(45);
 
         private final int length;
