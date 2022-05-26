@@ -55,27 +55,35 @@ public class CyberAPI  {
         getAPI().versionCheck();
     }
 
-    public static void initSpigot(JavaPlugin plugin) {
-        initSpigot(plugin, true);
+    public static void initSpigot(@NotNull JavaPlugin plugin) {
+        initSpigot(plugin, true, false);
     }
 
-    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs) {
+    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs) { initSpigot(plugin, sendPrefixInLogs, false); }
+
+    public static void initSpigot(@NotNull JavaPlugin plugin, boolean sendPrefixInLogs, boolean silenceLogs) {
         CyberAPI.getAPI().setServerType(CyberAPI.ServerType.SPIGOT);
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         spigotPlugin = plugin;
         prefixInLogs = sendPrefixInLogs;
+        silenceLogs(silenceLogs);
         sendStartupMessage(plugin.getDescription().getName());
     }
 
-    public static void initBungee(Plugin plugin) {
-        initBungee(plugin, plugin.getDescription().getName(), true);
+    public static void initBungee(@NotNull Plugin plugin) {
+        initBungee(plugin, plugin.getDescription().getName(), true, false);
     }
 
-    public static void initBungee(@NotNull Plugin plugin, String prefix, boolean sendPrefixInLogs) {
+    public static void initBungee(@NotNull Plugin plugin, String prefix) { initBungee(plugin, prefix, true, false);}
+
+    public static void initBungee(@NotNull Plugin plugin, String prefix, boolean sendPrefixInLogs) { initBungee(plugin, plugin.getDescription().getName(), true, false);}
+
+    public static void initBungee(@NotNull Plugin plugin, String prefix, boolean sendPrefixInLogs, boolean silenceLogs) {
         CyberAPI.getAPI().setServerType(CyberAPI.ServerType.BUNGEE);
         bungeePlugin = plugin;
         bungeePrefix = prefix;
         prefixInLogs = sendPrefixInLogs;
+        silenceLogs(silenceLogs);
         sendStartupMessage(plugin.getDescription().getName());
     }
 
@@ -217,7 +225,7 @@ public class CyberAPI  {
         return prefixInLogs;
     }
     public void versionCheck() {
-        if(!silence) return;
+        if(silence) return;
 
         try {
             URL url = new URL("https://raw.githubusercontent.com/CyberedCake/CyberAPI/main/src/main/resources/version.txt");
