@@ -10,12 +10,12 @@ Bungeecord do not have.
 
 ### It is recommended that use Paper if you're using a Spigot fork or use Waterfall if you're using a Bungeecord fork!
 
-You can install this by going **_[here](https://jitpack.io/#CyberedCake/CyberAPI/)_** and clicking on gradle or 
+You can install this by going **_[here](https://jitpack.io/#CyberedCake/CyberAPI-old/)_** and clicking on gradle or 
 maven and adding to your pom.xml or build.gradle!
 
 - Replace "Tag" in the 'version' section of Maven or Gradle with the version below (exclude "JitPack"):
 
-    [![](https://jitpack.io/v/CyberedCake/CyberAPI.svg)](https://jitpack.io/#CyberedCake/CyberAPI)
+    [![](https://jitpack.io/v/CyberedCake/CyberAPI-old.svg)](https://jitpack.io/#CyberedCake/CyberAPI-old)
 
 Basically, you can add CyberAPI by using...
 
@@ -36,7 +36,7 @@ Basically, you can add CyberAPI by using...
   ```xml
 <dependency>
     <groupId>com.github.CyberedCake</groupId>
-    <artifactId>CyberAPI</artifactId>
+    <artifactId>CyberAPI-old</artifactId>
     <version>v2.1.10</version>
 </dependency>
    ```
@@ -56,7 +56,7 @@ repositories {
     
   ```gradle
 dependencies {
-	compileOnly 'com.github.CyberedCake:CyberAPI:v2.1.10'
+	compileOnly 'com.github.CyberedCake:CyberAPI-old:v2.1.10'
 }
    ```
 </details>
