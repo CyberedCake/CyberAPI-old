@@ -1,6 +1,6 @@
 ## This is outdated! Please use [the latest version of CyberAPI](https://github.com/CyberedCake/CyberAPI)
 
-# CyberAPI
+# CyberAPI (OLD AND OUTDATED)
 CyberAPI is used for some of Cyber's plugins, including CyberNet ones! It has additional features that Spigot and 
 Bungeecord do not have.
 
